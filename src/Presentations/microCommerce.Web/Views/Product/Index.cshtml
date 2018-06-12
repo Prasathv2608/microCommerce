@@ -1,0 +1,10 @@
+﻿@model IList<ProductViewModel>
+
+@foreach (var product in Model)
+{
+    <p>@product.Id</p>
+    <p>@product.Name</p>
+    <p>@product.Description</p>
+    <p>@product.OldPrice ₺</p>
+    <p>@product.Price ₺</p>
+}

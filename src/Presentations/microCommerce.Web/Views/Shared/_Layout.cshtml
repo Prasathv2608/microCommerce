@@ -1,0 +1,15 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @await Component.InvokeAsync("Head")
+</head>
+<body>
+    <div class="super_container">
+        @await Component.InvokeAsync("Header")
+        @await Component.InvokeAsync("TopMenu")
+        @RenderBody()
+        @await Component.InvokeAsync("Footer")
+    </div>
+    @await Component.InvokeAsync("Script")
+</body>
+</html>

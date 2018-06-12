@@ -1,0 +1,262 @@
+version: '3.3'
+
+services:
+    front.web:
+        container_name: microCommerce_web
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_URLS=http://*:5100
+        build:
+            context: .
+            dockerfile: Presentations/microCommerce.Web/Dockerfile
+        # depends_on:
+            # - identity.api
+            # - geolocation.api
+            # - directory.api
+            # - customer.api
+            # - media.api
+            # - category.api
+            # - product.api
+            # - basket.api
+            # - checkout.api
+            # - order.api
+            # - shipping.api
+        ports:
+            - "5100:5100"
+
+    admin.web:
+        container_name: microCommerce_admin
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_URLS=http://*:5200
+        build:
+            context: .
+            dockerfile: Presentations/microCommerce.Admin/Dockerfile
+        # depends_on:
+            # - identity.api
+            # - directory.api
+            # - customer.api
+            # - media.api
+            # - category.api
+            # - product.api
+            # - basket.api
+            # - checkout.api
+            # - order.api
+            # - shipping.api
+        ports:
+            - "5200:5200"
+
+    # basket.api:
+        # container_name: microCommerce_basket_api
+        # environment:
+            # - ASPNETCORE_ENVIRONMENT=Development
+            # - ASPNETCORE_URLS=http://*:5300
+        # build:
+            # context: .
+            # dockerfile: Services/microCommerce.BasketApi/Dockerfile
+        # # depends_on:
+        # #     - identity.api
+        # #     - redis.cache
+        # #     - nosql.data
+        # ports:
+            # - "5300:5300"
+ 
+    # category.api:
+        # container_name: microCommerce_category_api
+        # environment:
+            # - ASPNETCORE_ENVIRONMENT=Development
+            # - ASPNETCORE_URLS=http://*:5301
+        # build:
+            # context: .
+            # dockerfile: Services/microCommerce.CategoryApi/Dockerfile
+        # # depends_on:
+        # #     - identity.api
+        # #     - redis.cache
+        # #     - nosql.data
+        # ports:
+            # - "5301:5301"
+ 
+    # checkout.api:
+        # container_name: microCommerce_checkout_api
+        # environment:
+            # - ASPNETCORE_ENVIRONMENT=Development
+            # - ASPNETCORE_URLS=http://*:5302
+        # build:
+            # context: .
+            # dockerfile: Services/microCommerce.CheckoutApi/Dockerfile
+        # # depends_on:
+        # #     - identity.api
+        # #     - redis.cache
+        # #     - nosql.data
+        # ports:
+            # - "5302:5302"
+
+    # customer.api:
+        # container_name: microCommerce_customer_api
+        # environment:
+            # - ASPNETCORE_ENVIRONMENT=Development
+            # - ASPNETCORE_URLS=http://*:5303
+        # build:
+            # context: .
+            # dockerfile: Services/microCommerce.CustomerApi/Dockerfile
+        # # depends_on:
+        # #     - identity.api
+        # #     - redis.cache
+        # #     - nosql.data
+        # ports:
+            # - "5303:5303"
+
+    # directory.api:
+        # container_name: microCommerce_directory_api
+        # environment:
+            # - ASPNETCORE_ENVIRONMENT=Development
+            # - ASPNETCORE_URLS=http://*:5304
+        # build:
+            # context: .
+            # dockerfile: Services/microCommerce.DirectoryApi/Dockerfile
+        # # depends_on:
+        # #     - identity.api
+        # #     - redis.cache
+        # #     - nosql.data
+        # ports:
+            # - "5304:5304"
+
+    # geolocation.api:
+        # container_name: microCommerce_geolocation_api
+        # environment:
+            # - ASPNETCORE_ENVIRONMENT=Development
+            # - ASPNETCORE_URLS=http://*:5305
+        # build:
+            # context: .
+            # dockerfile: Services/microCommerce.GeoLocationApi/Dockerfile
+        # # depends_on:
+        # #     - identity.api
+        # #     - redis.cache
+        # #     - nosql.data
+        # ports:
+            # - "5305:5305"
+
+    # media.api:
+        # container_name: microCommerce_media_api
+        # environment:
+            # - ASPNETCORE_ENVIRONMENT=Development
+            # - ASPNETCORE_URLS=http://*:5306
+        # build:
+            # context: .
+            # dockerfile: Services/microCommerce.MediaApi/Dockerfile
+        # # depends_on:
+        # #     - identity.api
+        # #     - redis.cache
+        # #     - nosql.data
+        # ports:
+            # - "5306:5306"
+
+    # order.api:
+        # container_name: microCommerce_order_api
+        # environment:
+            # - ASPNETCORE_ENVIRONMENT=Development
+            # - ASPNETCORE_URLS=http://*:5307
+        # build:
+            # context: .
+            # dockerfile: Services/microCommerce.OrderApi/Dockerfile
+        # # depends_on:
+        # #     - identity.api
+        # #     - redis.cache
+        # #     - nosql.data
+        # ports:
+            # - "5307:5307"
+
+    product.api:
+        container_name: microCommerce_product_api
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=http://*:5308
+        build:
+            context: .
+            dockerfile: Services/microCommerce.ProductApi/Dockerfile
+         # depends_on:
+         #     - identity.api
+         #     - redis.cache
+         #     - nosql.data
+        ports:
+            - "5308:5308"
+            - "3307:3306"
+            
+    # shipping.api:
+        # container_name: microCommerce_shipping_api
+        # environment:
+            # - ASPNETCORE_ENVIRONMENT=Development
+            # - ASPNETCORE_URLS=http://*:5309
+        # build:
+            # context: .
+            # dockerfile: Services/microCommerce.ShippingApi/Dockerfile
+        # # depends_on:
+        # #     - identity.api
+        # #     - redis.cache
+        # #     - nosql.data
+        # ports:
+            # - "5309:5309"
+            
+    # identity.api:
+        # container_name: microCommerce_identity_api
+        # environment:
+            # - ASPNETCORE_ENVIRONMENT=Development
+            # - ASPNETCORE_URLS=http://*:5310
+        # build:
+            # context: .
+            # dockerfile: Services/microCommerce.IdentityApi/Dockerfile
+        # # depends_on:
+        # #     - redis.cache
+        # #     - nosql.data
+        # ports:
+            # - "5310:5310"
+
+    # nosql.data:
+        # image: mongo:latest
+        # environment:
+          # - mongo_data_dir=/data/db
+          # - mongo_log_dir=/dev/null
+          # - mongo_url=mongo://mongo_db:27017
+        # ports:
+            # - "27017:27017"
+
+    # rabbitmq:
+    #     image: rabbitmq:3-management-alpine
+    #     environment:
+    #         RABBITMQ_DEFAULT_USER: "rabbitmq"
+    #         RABBITMQ_DEFAULT_PASS: "rabbitmq"
+    #         RABBITMQ_DEFAULT_VHOST: "/"
+    #     ports:
+    #         - "15672:15672"
+    #         - "5672:5672"
+
+    # elasticsearch:
+    #     image: elasticsearch
+    #     ports:
+    #         - "9200:9200"
+    
+    # redis.cache:
+    #     image: redis
+    #     environment:
+    #       - ALLOW_EMPTY_PASSWORD=yes
+    #       - REDIS_URL=redis://redis_db:6379
+    #     ports:
+    #       - "6379:6379"
+
+    # db:
+        # image: mysql:5.7
+        # restart: always
+        # volumes:
+            # - ../db_data:/var/lib/mysql
+        # restart: always
+        # environment:
+            # MYSQL_ROOT_PASSWORD: 123456
+            # MYSQL_DATABASE: microCommerce
+    
+    proxy:
+        build: ../proxy
+        ports:
+            - "8080:8080"
+        depends_on:
+            - front.web
+            - admin.web

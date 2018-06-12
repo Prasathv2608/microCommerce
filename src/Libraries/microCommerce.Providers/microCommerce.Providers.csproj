@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0002" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\microCommerce.Caching\microCommerce.Caching.csproj" />
+    <ProjectReference Include="..\microCommerce.Common\microCommerce.Common.csproj" />
+    <ProjectReference Include="..\microCommerce.Dapper\microCommerce.Dapper.csproj" />
+  </ItemGroup>
+</Project>

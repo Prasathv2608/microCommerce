@@ -11,6 +11,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\logs\" />
-    <Folder Include="wwwroot\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\error.html" />
+    <None Include="wwwroot\notfound.html" />
   </ItemGroup>
 </Project>

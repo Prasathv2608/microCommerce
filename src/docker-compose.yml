@@ -4,7 +4,7 @@ services:
     front.web:
         container_name: microCommerce_web
         environment:
-            - ASPNETCORE_ENVIRONMENT=Production
+            - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_URLS=http://*:5100
         build:
             context: .
@@ -24,14 +24,14 @@ services:
         ports:
             - "5100:5100"
 
-    admin.web:
-        container_name: microCommerce_admin
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Production
-            - ASPNETCORE_URLS=http://*:5200
-        build:
-            context: .
-            dockerfile: Presentations/microCommerce.Admin/Dockerfile
+    #admin.web:
+        #container_name: microCommerce_admin
+        #environment:
+            #- ASPNETCORE_ENVIRONMENT=Development
+            #- ASPNETCORE_URLS=http://*:5200
+        #build:
+            #context: .
+            #dockerfile: Presentations/microCommerce.Admin/Dockerfile
         # depends_on:
             # - identity.api
             # - directory.api
@@ -43,8 +43,8 @@ services:
             # - checkout.api
             # - order.api
             # - shipping.api
-        ports:
-            - "5200:5200"
+        #ports:
+            #- "5200:5200"
 
     # basket.api:
         # container_name: microCommerce_basket_api
@@ -166,21 +166,21 @@ services:
         # ports:
             # - "5307:5307"
 
-    product.api:
-        container_name: microCommerce_product_api
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-            - ASPNETCORE_URLS=http://*:5308
-        build:
-            context: .
-            dockerfile: Services/microCommerce.ProductApi/Dockerfile
+    #product.api:
+        #container_name: microCommerce_product_api
+        #environment:
+            #- ASPNETCORE_ENVIRONMENT=Development
+            #- ASPNETCORE_URLS=http://*:5308
+        #build:
+            #context: .
+            #dockerfile: Services/microCommerce.ProductApi/Dockerfile
          # depends_on:
          #     - identity.api
          #     - redis.cache
          #     - nosql.data
-        ports:
-            - "5308:5308"
-            - "3307:3306"
+        #ports:
+            #- "5308:5308"
+            #- "3307:3306"
             
     # shipping.api:
         # container_name: microCommerce_shipping_api
@@ -259,4 +259,4 @@ services:
             - "8080:8080"
         depends_on:
             - front.web
-            - admin.web
+            #- admin.web

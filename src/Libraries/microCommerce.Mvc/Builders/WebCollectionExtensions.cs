@@ -47,9 +47,7 @@ namespace microCommerce.Mvc.Builders
             var builder = services.AddMvc();
             
             services.AddHangfire(hf => hf.UseMemoryStorage());
-
-            services.AddMiniProfiler();
-
+            
             //add custom view engine
             services.AddViewEngine();
 

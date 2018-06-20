@@ -1,4 +1,5 @@
-﻿using microCommerce.Common;
+﻿using Hangfire;
+using microCommerce.Common;
 using microCommerce.Ioc;
 using microCommerce.Logging;
 using microCommerce.Mvc.Infrastructure;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Routing;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Hangfire;
 
 namespace microCommerce.Mvc.Builders
 {
@@ -38,9 +38,7 @@ namespace microCommerce.Mvc.Builders
 
             app.UseHangfireServer();
             app.UseHangfireDashboard();
-
-            app.UseMiniProfiler();
-
+            
             //set culture by user data
             app.UseCulture();
         }

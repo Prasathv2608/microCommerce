@@ -1,6 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+	<Copyright>Copyright © microCommerce</Copyright>
+    <Company>microCommerce</Company>
+    <Authors>microCommerce</Authors>
+    <Version>1.0.0</Version>
+    <Description>Simple Microservice Architecture E-Commerce Solutions</Description>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/fsefacan/microCommerce/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/fsefacan/microCommerce</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/fsefacan/microCommerce</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\microCommerce.Common\microCommerce.Common.csproj" />

@@ -30,10 +30,7 @@ namespace microCommerce.Mvc.Builders
             hostingConfig.ContentRootPath = environment.WebRootPath;
             hostingConfig.ModulesRootPath = Path.Combine(environment.ContentRootPath, "Modules");
             services.AddSingleton(hostingConfig);
-
-            //create, initialize and configure the engine
-            var engine = EngineContext.Create();
-
+            
             //most of API providers require TLS 1.2 nowadays
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -67,7 +64,8 @@ namespace microCommerce.Mvc.Builders
             //add custom session
             services.AddCustomHttpSession(config);
 
-            //register dependencies
+            //create, initialize and register dependencies
+            var engine = IocContainer.Create();
             var serviceProvider = engine.RegisterDependencies(services, configuration, config);
 
             //add module features support

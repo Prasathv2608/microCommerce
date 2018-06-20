@@ -88,8 +88,8 @@ namespace microCommerce.Mvc.Controllers
         /// <param name="exception">Exception</param>
         protected virtual void LogException(Exception exception)
         {
-            var webHelper = EngineContext.Current.Resolve<IWebHelper>();
-            var logger = EngineContext.Current.Resolve<ILogger>();
+            var webHelper = IocContainer.Current.Resolve<IWebHelper>();
+            var logger = IocContainer.Current.Resolve<ILogger>();
             logger.Error(exception.Message, exception, webHelper.GetCurrentIpAddress(), webHelper.GetThisPageUrl(true), webHelper.GetUrlReferrer());
         }
 

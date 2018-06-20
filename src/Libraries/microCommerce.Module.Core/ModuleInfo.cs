@@ -64,12 +64,12 @@ namespace microCommerce.Module.Core
             object instance = null;
             try
             {
-                instance = EngineContext.Current.Resolve(ModuleType);
+                instance = IocContainer.Current.Resolve(ModuleType);
             }
             catch { }
 
             if (instance == null)
-                instance = EngineContext.Current.ResolveUnregistered(ModuleType);
+                instance = IocContainer.Current.ResolveUnregistered(ModuleType);
 
             var typedInstance = instance as T;
             if (typedInstance != null)

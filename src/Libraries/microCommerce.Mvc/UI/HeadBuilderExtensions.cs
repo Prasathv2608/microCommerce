@@ -14,7 +14,7 @@ namespace microCommerce.Mvc.UI
         /// <param name="part">Title part</param>
         public static void AddTitle(this IHtmlHelper html, string part)
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
             headBuilder.AddTitle(part);
         }
 
@@ -25,7 +25,7 @@ namespace microCommerce.Mvc.UI
         /// <param name="part">Title part</param>
         public static void AppendTitle(this IHtmlHelper html, string part)
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
             headBuilder.AppendTitle(part);
         }
 
@@ -38,7 +38,7 @@ namespace microCommerce.Mvc.UI
         /// <returns>Generated string</returns>
         public static IHtmlContent RenderTitle(this IHtmlHelper html, bool addDefaultTitle = true, string part = "")
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
             html.AppendTitle(part);
 
             return new HtmlString(html.Encode(headBuilder.RenderTitle(addDefaultTitle)));
@@ -51,7 +51,7 @@ namespace microCommerce.Mvc.UI
         /// <param name="part">Meta description part</param>
         public static void AddMetaDescription(this IHtmlHelper html, string part)
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
             headBuilder.AddMetaDescription(part);
         }
 
@@ -62,7 +62,7 @@ namespace microCommerce.Mvc.UI
         /// <param name="part">Meta description part</param>
         public static void AppendMetaDescription(this IHtmlHelper html, string part)
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
             headBuilder.AppendMetaDescription(part);
         }
 
@@ -74,7 +74,7 @@ namespace microCommerce.Mvc.UI
         /// <returns>Generated string</returns>
         public static IHtmlContent RenderMetaDescription(this IHtmlHelper html, string part = "")
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
             html.AppendMetaDescription(part);
 
             return new HtmlString(html.Encode(headBuilder.RenderMetaDescription()));
@@ -106,7 +106,7 @@ namespace microCommerce.Mvc.UI
         public static void AddScript(this IHtmlHelper html, ResourceLocation location,
             string src, bool excludeFromBundle = false, bool isAsync = false)
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
             headBuilder.AddScript(location, src, excludeFromBundle, isAsync);
         }
 
@@ -136,7 +136,7 @@ namespace microCommerce.Mvc.UI
         public static void AppendScript(this IHtmlHelper html, ResourceLocation location,
             string src, bool excludeFromBundle = false, bool isAsync = false)
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
             headBuilder.AppendScript(location, src, excludeFromBundle, isAsync);
         }
 
@@ -150,7 +150,7 @@ namespace microCommerce.Mvc.UI
         /// <returns>Generated string</returns>
         public static IHtmlContent RenderScripts(this IHtmlHelper html, IUrlHelper urlHelper, ResourceLocation location)
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
 
             return new HtmlString(headBuilder.RenderScripts(urlHelper, location));
         }
@@ -164,7 +164,7 @@ namespace microCommerce.Mvc.UI
         public static void AddStyle(this IHtmlHelper html,
             string src, bool excludeFromBundle = false)
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
             headBuilder.AddStyle(src, excludeFromBundle);
         }
 
@@ -177,7 +177,7 @@ namespace microCommerce.Mvc.UI
         public static void AppendStyle(this IHtmlHelper html,
             string src, bool excludeFromBundle = false)
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
             headBuilder.AppendStyle(src, excludeFromBundle);
         }
 
@@ -190,7 +190,7 @@ namespace microCommerce.Mvc.UI
         /// <returns>Generated string</returns>
         public static IHtmlContent RenderStyles(this IHtmlHelper html, IUrlHelper urlHelper)
         {
-            var headBuilder = EngineContext.Current.Resolve<IHeadBuilder>();
+            var headBuilder = IocContainer.Current.Resolve<IHeadBuilder>();
 
             return new HtmlString(headBuilder.RenderStyles(urlHelper));
         }

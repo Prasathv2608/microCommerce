@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using BiletKesfet.Common;
 using microCommerce.Caching;
 using microCommerce.Common;
 using microCommerce.Common.Configurations;
@@ -45,6 +46,9 @@ namespace microCommerce.ProductApi.Infrastructure
             {
                 builder.RegisterType<NullLogger>().As<ILogger>().InstancePerLifetimeScope();
             }
+
+            //file provider
+            builder.RegisterType<CustomFileProvider>().As<ICustomFileProvider>().InstancePerLifetimeScope();
 
             //register dapper data context
             builder.Register(c => ProviderFactory.GetProvider(config.DatabaseProviderName)).As<IDataProvider>().SingleInstance();

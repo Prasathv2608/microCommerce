@@ -93,7 +93,7 @@ namespace microCommerce.Mvc.UI
 
         private static IViewEngine ResolveViewEngine(ViewComponentContext context)
         {
-            return EngineContext.Current.Resolve<ICompositeViewEngine>();
+            return IocContainer.Current.Resolve<ICompositeViewEngine>();
         }
     }
 }

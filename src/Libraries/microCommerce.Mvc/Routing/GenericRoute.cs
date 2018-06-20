@@ -41,7 +41,7 @@ namespace microCommerce.Mvc.Routing
         #region Utilities
         protected RouteValueDictionary GetRouteValues(RouteContext context)
         {
-            var seoSettings = EngineContext.Current.Resolve<SeoSettings>();
+            var seoSettings = IocContainer.Current.Resolve<SeoSettings>();
             //remove language code from the path if it's localized URL
             var path = context.HttpContext.Request.Path.Value;
             

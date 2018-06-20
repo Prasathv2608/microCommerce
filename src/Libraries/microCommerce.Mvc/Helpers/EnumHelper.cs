@@ -27,14 +27,14 @@ namespace microCommerce.Mvc.Helpers
         
         public static string GetLocalizedName(this Enum value)
         {
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
+            var workContext = IocContainer.Current.Resolve<IWorkContext>();
             return value.GetLocalizedName(workContext.CurrentLanguage.LanguageCulture);
         }
 
         public static string GetLocalizedName(this Enum value, string cultureCode)
         {
-            var localization = EngineContext.Current.Resolve<ILocalizationProvider>();
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
+            var localization = IocContainer.Current.Resolve<ILocalizationProvider>();
+            var workContext = IocContainer.Current.Resolve<IWorkContext>();
             string displayName = value.GetDisplayName();
 
             return localization.GetResourceValue(displayName, workContext.CurrentLanguage.LanguageCulture, displayName);

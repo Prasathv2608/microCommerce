@@ -22,7 +22,7 @@ namespace microCommerce.Ioc
         {
             get
             {
-                return  _serviceProvider;
+                return _serviceProvider;
             }
         }
         #endregion
@@ -37,14 +37,6 @@ namespace microCommerce.Ioc
             //register assembly finder
             var assemblyHelper = new AssemblyHelper();
             containerBuilder.RegisterInstance(assemblyHelper).As<IAssemblyHelper>().SingleInstance();
-
-            //find dependency registrars provided by other assemblies
-            var dependencyRegistrars = assemblyHelper.FindOfType<IDependencyRegistrar>();
-
-            //create and sort instances of dependency registrars
-            var instances = dependencyRegistrars
-                .Select(dependencyRegistrar => (IDependencyRegistrar)Activator.CreateInstance(dependencyRegistrar));
-            //.OrderBy(dependencyRegistrar => dependencyRegistrar.Priority);
 
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .AssignableTo<ITransientDependency>()
@@ -66,9 +58,11 @@ namespace microCommerce.Ioc
                 AppConfig = config
             };
 
-            //register all provided dependencies
-            foreach (var dependencyRegistrar in instances)
-                dependencyRegistrar.Register(dependencyConfig);
+            //find dependency registrars provided by other assemblies
+            var dependencies = assemblyHelper.FindOfType<IDependencyRegistrar>().ToList();
+
+            //create instances of dependency registrars
+            dependencies.ForEach(instance => CreateInstance<IDependencyRegistrar>(instance).Register(dependencyConfig));
 
             //populate Autofac container builder with the set of registered service descriptors
             containerBuilder.Populate(services);
@@ -76,15 +70,28 @@ namespace microCommerce.Ioc
             //create service provider
             _serviceProvider = new AutofacServiceProvider(containerBuilder.Build());
 
-            var startupTasks = assemblyHelper.FindOfType<IStartupTask>();
-            var taskInstances = startupTasks
-                .Select(task => (IStartupTask)Activator.CreateInstance(task))
-                .OrderBy(task => task.Priority);
+            //find startup tasks by other assemblies
+            var startupTasks = assemblyHelper.FindOfType<IStartupTask>().ToList();
 
-            foreach (var task in taskInstances)
-                task.Execute();
+            //create instance of startup tasks
+            startupTasks.ForEach(instance => ResolveUnregistered<IStartupTask>(instance).Execute());
 
             return _serviceProvider;
+        }
+
+        public virtual T CreateInstance<T>() where T : class
+        {
+            return CreateInstance(typeof(T)) as T;
+        }
+
+        public virtual T CreateInstance<T>(Type type) where T : class
+        {
+            return CreateInstance(type) as T;
+        }
+
+        public virtual object CreateInstance(Type type)
+        {
+            return Activator.CreateInstance(type);
         }
 
         /// <summary>
@@ -94,7 +101,7 @@ namespace microCommerce.Ioc
         /// <returns></returns>
         public virtual T Resolve<T>() where T : class
         {
-            return ServiceProvider.GetRequiredService(typeof(T)) as T;
+            return Resolve(typeof(T)) as T;
         }
 
         /// <summary>
@@ -115,6 +122,11 @@ namespace microCommerce.Ioc
         public virtual IEnumerable<T> ResolveAll<T>()
         {
             return ServiceProvider.GetServices(typeof(T)) as IEnumerable<T>;
+        }
+
+        public virtual T ResolveUnregistered<T>(Type type) where T : class
+        {
+            return ResolveUnregistered(type) as T;
         }
 
         /// <summary>

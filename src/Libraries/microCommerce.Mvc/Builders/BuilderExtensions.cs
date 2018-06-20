@@ -13,6 +13,7 @@ namespace microCommerce.Mvc.Builders
     {
         public static IMvcBuilder AddModuleFeatures(this IMvcBuilder builder, IServiceCollection services)
         {
+            //initialize module features
             builder.ConfigureApplicationPartManager(manager => ModuleManager.Initialize(manager));
 
             return builder;

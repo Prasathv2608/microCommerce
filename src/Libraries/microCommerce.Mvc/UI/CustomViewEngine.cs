@@ -16,7 +16,7 @@ namespace microCommerce.Mvc.UI
                 if (_localizer == null)
                 {
                     if (_localizationProvider == null)
-                        _localizationProvider = EngineContext.Current.Resolve<ILocalizationProvider>();
+                        _localizationProvider = IocContainer.Current.Resolve<ILocalizationProvider>();
 
                     _localizer = (format, args) =>
                     {

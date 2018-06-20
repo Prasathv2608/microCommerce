@@ -32,7 +32,7 @@ namespace microCommerce.Mvc.Builders
                 s.RouteTemplate = "docs/{documentName}/endpoints.json";
             });
 
-            var config = EngineContext.Current.Resolve<ServiceConfiguration>();
+            var config = IocContainer.Current.Resolve<ServiceConfiguration>();
             app.UseSwaggerUI(s =>
             {
                 s.SwaggerEndpoint(string.Format("/docs/v{0}/endpoints.json", config.CurrentVersion), config.ApplicationName);
@@ -43,7 +43,7 @@ namespace microCommerce.Mvc.Builders
 
         private static void UseCustomExceptionHandler(this IApplicationBuilder application)
         {
-            var hostingEnvironment = EngineContext.Current.Resolve<IHostingEnvironment>();
+            var hostingEnvironment = IocContainer.Current.Resolve<IHostingEnvironment>();
             if (hostingEnvironment.IsDevelopment())
             {
                 //get detailed exceptions for developing and testing purposes
@@ -61,8 +61,8 @@ namespace microCommerce.Mvc.Builders
 
                     try
                     {
-                        var logger = EngineContext.Current.Resolve<ILogger>();
-                        var webHelper = EngineContext.Current.Resolve<IWebHelper>();
+                        var logger = IocContainer.Current.Resolve<ILogger>();
+                        var webHelper = IocContainer.Current.Resolve<IWebHelper>();
                         logger.Error(exception.Message, exception, webHelper.GetCurrentIpAddress(), webHelper.GetThisPageUrl(true), webHelper.GetUrlReferrer());
                     }
                     finally

@@ -32,10 +32,10 @@ namespace microCommerce.Mvc.Attributes
             get
             {
                 //get working language identifier
-                var languageCulture = EngineContext.Current.Resolve<IWorkContext>().CurrentLanguage.LanguageCulture;
+                var languageCulture = IocContainer.Current.Resolve<IWorkContext>().CurrentLanguage.LanguageCulture;
 
                 //get locale resource value
-                string _resourceValue = EngineContext.Current.Resolve<ILocalizationProvider>().GetResourceValue(ResourceKey, languageCulture, ResourceKey);
+                string _resourceValue = IocContainer.Current.Resolve<ILocalizationProvider>().GetResourceValue(ResourceKey, languageCulture, ResourceKey);
 
                 return _resourceValue;
             }

@@ -79,7 +79,7 @@ namespace microCommerce.Mvc.UI
             {
                 if (_url == null)
                 {
-                    var factory = EngineContext.Current.Resolve<IUrlHelperFactory>();
+                    var factory = IocContainer.Current.Resolve<IUrlHelperFactory>();
                     _url = factory?.GetUrlHelper(ViewComponentContext.ViewContext);
                 }
 
@@ -134,7 +134,7 @@ namespace microCommerce.Mvc.UI
             {
                 if (_viewEngine == null)
                 {
-                    _viewEngine = EngineContext.Current.Resolve<ICompositeViewEngine>();
+                    _viewEngine = IocContainer.Current.Resolve<ICompositeViewEngine>();
                 }
 
                 return _viewEngine;

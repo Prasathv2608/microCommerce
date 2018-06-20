@@ -2,7 +2,7 @@
 
 namespace microCommerce.Ioc
 {
-    public class EngineContext
+    public class IocContainer
     {
         /// <summary>
         /// Create a static instance of the application engine

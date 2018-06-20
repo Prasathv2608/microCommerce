@@ -228,7 +228,7 @@ namespace microCommerce.Mvc.Paging
             if (_model.TotalItems == 0)
                 return null;
 
-            var localizationProvider = EngineContext.Current.Resolve<ILocalizationProvider>();
+            var localizationProvider = IocContainer.Current.Resolve<ILocalizationProvider>();
 
             var links = new StringBuilder();
             if (showTotalSummary && (_model.TotalPages > 0))
@@ -422,7 +422,7 @@ namespace microCommerce.Mvc.Paging
                 }
             }
 
-            var webHelper = EngineContext.Current.Resolve<IWebHelper>();
+            var webHelper = IocContainer.Current.Resolve<IWebHelper>();
             var url = webHelper.GetThisPageUrl(false);
             foreach (var routeValue in routeValues)
             {

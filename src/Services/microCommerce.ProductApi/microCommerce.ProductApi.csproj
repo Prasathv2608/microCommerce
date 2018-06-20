@@ -18,4 +18,7 @@
     <ProjectReference Include="..\..\Libraries\microCommerce.Dapper\microCommerce.Dapper.csproj" />
     <ProjectReference Include="..\..\Libraries\microCommerce.Mvc\microCommerce.Mvc.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
 </Project>

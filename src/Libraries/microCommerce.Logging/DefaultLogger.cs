@@ -31,7 +31,7 @@ namespace microCommerce.Logging
             string logMessage = string.Format("{0} [{1}] {2}",
                 DateTime.UtcNow.ToString("dd.MM.yyyy HH:mm:ss.fff zzz"),
                 logLevel.ToString(),
-                fullMessage);
+                shortMessage);
 
             _fileProvider.CreateDirectory(_fileProvider.MapContentPath("logs"));
             using (StreamWriter sw = File.AppendText(_fileProvider.MapContentPath(string.Format("logs/{0:dd.MM.yyyy}.txt", DateTime.UtcNow))))

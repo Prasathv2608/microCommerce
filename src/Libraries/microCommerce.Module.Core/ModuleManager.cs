@@ -87,7 +87,7 @@ namespace microCommerce.Module.Core
             {
                 var loadedModules = new List<ModuleInfo>();
 
-                var fileProvider = EngineContext.Current.Resolve<ICustomFileProvider>();
+                var fileProvider = IocContainer.Current.Resolve<ICustomFileProvider>();
 
                 //gets the module folder info
                 fileProvider.CreateDirectory(fileProvider.MapPath(ModulesPath));//create if not exist
@@ -146,7 +146,7 @@ namespace microCommerce.Module.Core
             if (string.IsNullOrEmpty(systemName))
                 throw new ArgumentNullException(nameof(systemName));
 
-            var fileProvider = EngineContext.Current.Resolve<ICustomFileProvider>();
+            var fileProvider = IocContainer.Current.Resolve<ICustomFileProvider>();
 
             string filePath = fileProvider.MapPath(InstalledModuleFilePath);
             FileEnsureCreated(filePath);
@@ -170,7 +170,7 @@ namespace microCommerce.Module.Core
             if (string.IsNullOrEmpty(systemName))
                 throw new ArgumentNullException(nameof(systemName));
 
-            var fileProvider = EngineContext.Current.Resolve<ICustomFileProvider>();
+            var fileProvider = IocContainer.Current.Resolve<ICustomFileProvider>();
 
             string filePath = fileProvider.MapPath(InstalledModuleFilePath);
             FileEnsureCreated(filePath);

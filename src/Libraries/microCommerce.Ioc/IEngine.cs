@@ -15,6 +15,12 @@ namespace microCommerce.Ioc
         /// <param name="configuration"></param>
         IServiceProvider RegisterDependencies(IServiceCollection services, IConfiguration configuration, IAppConfiguration config);
 
+        T CreateInstance<T>() where T : class;
+
+        T CreateInstance<T>(Type type) where T : class;
+
+        object CreateInstance(Type type);
+
         /// <summary>
         /// Resolve dependency
         /// </summary>
@@ -28,7 +34,7 @@ namespace microCommerce.Ioc
         /// <param name="type">Type of resolved service</param>
         /// <returns>Resolved service</returns>
         object Resolve(Type type);
-        
+
         /// <summary>
         /// Resolve dependencies
         /// </summary>

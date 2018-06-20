@@ -38,19 +38,19 @@ namespace microCommerce.Mvc.Builders
 
             app.UseHangfireServer();
             app.UseHangfireDashboard();
-            
+
             //set culture by user data
             app.UseCulture();
         }
 
         private static void RegisterRoutes(IRouteBuilder routeBuilder)
         {
-            var assemblyHelper = EngineContext.Current.Resolve<IAssemblyHelper>();
+            var assemblyHelper = IocContainer.Current.Resolve<IAssemblyHelper>();
             var routeProviders = assemblyHelper.FindOfType<IRouteProvider>();
 
             var instances = routeProviders
-            .Select(rp => (IRouteProvider)Activator.CreateInstance(rp))
-            .OrderBy(rp => rp.Priority);
+                .Select(rp => (IRouteProvider)Activator.CreateInstance(rp))
+                .OrderBy(rp => rp.Priority);
 
             foreach (var instance in instances)
                 instance.RegisterRoutes(routeBuilder);
@@ -75,7 +75,7 @@ namespace microCommerce.Mvc.Builders
 
             //log errors
             application.UseExceptionHandler(handler =>
-            {                
+            {
                 handler.Run(context =>
                 {
                     var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
@@ -84,8 +84,8 @@ namespace microCommerce.Mvc.Builders
 
                     try
                     {
-                        var logger = EngineContext.Current.Resolve<ILogger>();
-                        var webHelper = EngineContext.Current.Resolve<IWebHelper>();
+                        var logger = IocContainer.Current.Resolve<ILogger>();
+                        var webHelper = IocContainer.Current.Resolve<IWebHelper>();
                         logger.Error(exception.Message, exception, webHelper.GetCurrentIpAddress(), webHelper.GetThisPageUrl(true), webHelper.GetUrlReferrer());
                     }
                     finally
@@ -96,7 +96,7 @@ namespace microCommerce.Mvc.Builders
                 });
             });
         }
-        
+
         private static void UseCustomPageNotFound(this IApplicationBuilder application)
         {
             application.UseStatusCodePages(async context =>
@@ -104,7 +104,7 @@ namespace microCommerce.Mvc.Builders
                 //handle 404 Not Found
                 if (context.HttpContext.Response.StatusCode == StatusCodes.Status404NotFound)
                 {
-                    var webHelper = EngineContext.Current.Resolve<IWebHelper>();
+                    var webHelper = IocContainer.Current.Resolve<IWebHelper>();
                     if (!webHelper.IsStaticResource())
                     {
                         //get new path
@@ -116,6 +116,6 @@ namespace microCommerce.Mvc.Builders
                     }
                 }
             });
-        }        
+        }
     }
 }

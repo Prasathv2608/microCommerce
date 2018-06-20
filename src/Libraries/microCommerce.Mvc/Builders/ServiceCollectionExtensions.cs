@@ -1,12 +1,8 @@
 ﻿using microCommerce.Common.Configurations;
 using microCommerce.Ioc;
-using microCommerce.Module.Core;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Internal;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
@@ -30,21 +26,15 @@ namespace microCommerce.Mvc.Builders
             hostingConfig.ContentRootPath = environment.WebRootPath;
             hostingConfig.ModulesRootPath = Path.Combine(environment.ContentRootPath, "Modules");
             services.AddSingleton(hostingConfig);
-
-            //create, initialize and configure the engine
-            var engine = EngineContext.Create();
-
+            
             //most of API providers require TLS 1.2 nowadays
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             //add response compression
-            services.AddCustomResponseCompression();
+            services.AddGzipResponseCompression();
 
             //add mvc engine
             var builder = services.AddWebApi();
-
-            //add module features support
-            //builder.AddModuleFeatures(services);
             
             //add accessor to HttpContext
             services.AddHttpContextAccessor();
@@ -52,8 +42,12 @@ namespace microCommerce.Mvc.Builders
             //add swagger
             services.AddCustomizedSwagger(config);
 
-            //register dependencies
+            //create, initialize and register dependencies
+            var engine = IocContainer.Create();
             var serviceProvider = engine.RegisterDependencies(services, configuration, config);
+
+            //add module features support
+            builder.AddModuleFeatures(services);
 
             return serviceProvider;
         }
@@ -84,41 +78,7 @@ namespace microCommerce.Mvc.Builders
 
             return builder;
         }
-
-        private static IMvcBuilder AddModuleFeatures(this IMvcBuilder builder, IServiceCollection services)
-        {
-            services.Configure<RazorViewEngineOptions>(options =>
-            {
-                options.ViewLocationExpanders.Clear();
-            });
-
-            builder.ConfigureApplicationPartManager(manager => ModuleManager.Initialize(manager));
-
-            return builder;
-        }
-
-        private static void AddCustomResponseCompression(this IServiceCollection services)
-        {
-            services.AddResponseCompression(options =>
-            {
-                options.Providers.Add<GzipCompressionProvider>();
-                options.EnableForHttps = true;
-                options.MimeTypes = new[] {
-                    // Default
-                    "text/plain",
-                    "text/css",
-                    "application/javascript",
-                    "text/html",
-                    "application/xml",
-                    "text/xml",
-                    "application/json",
-                    "text/json",
-                    // Custom
-                    "image/svg+xml"
-                };
-            });
-        }
-
+        
         private static void AddCustomizedSwagger(this IServiceCollection services, ServiceConfiguration config)
         {
             services.AddSwaggerGen(c =>

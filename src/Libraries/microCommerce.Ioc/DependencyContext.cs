@@ -20,7 +20,7 @@ namespace microCommerce.Ioc
         /// <summary>
         /// Gets or sets the app configuration root
         /// </summary>
-        public IConfigurationRoot ConfigurationRoot { get; set; }
+        public IConfiguration Configuration { get; set; }
 
         /// <summary>
         /// Gets or sets the application config

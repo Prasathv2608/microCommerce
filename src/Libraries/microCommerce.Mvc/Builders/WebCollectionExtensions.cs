@@ -18,7 +18,7 @@ namespace microCommerce.Mvc.Builders
 {
     public static class WebCollectionExtensions
     {
-        public static IServiceProvider ConfigureServices(this IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment environment)
+        public static IServiceProvider ConfigureServices(this IServiceCollection services, IConfiguration configuration, IHostingEnvironment environment)
         {
             //add application configuration
             var config = services.ConfigureStartupConfig<WebConfiguration>(configuration.GetSection("Application"));
@@ -47,6 +47,8 @@ namespace microCommerce.Mvc.Builders
             var builder = services.AddMvc();
             
             services.AddHangfire(hf => hf.UseMemoryStorage());
+
+            services.AddMiniProfiler();
 
             //add custom view engine
             services.AddViewEngine();

@@ -1,4 +1,5 @@
 ﻿using microCommerce.Mvc.Builders;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,17 +20,19 @@ namespace microCommerce.CustomerApi
         /// </summary>
         public IHostingEnvironment Environment { get; }
 
-        public Startup(IHostingEnvironment env)
+        /// <summary>
+        /// Startup constructure
+        /// </summary>
+        /// <param name="environment"></param>
+        public Startup(IHostingEnvironment environment)
         {
-            //create configuration
-            Configuration = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables()
-                .Build();
+            Environment = environment;
 
-            Environment = env;
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables(prefix: "ASPNETCORE_")
+                .Build();
         }
 
         /// <summary>
@@ -49,6 +52,18 @@ namespace microCommerce.CustomerApi
         public void Configure(IApplicationBuilder app)
         {
             app.ConfigureApiPipeline(Environment);
+        }
+    }
+
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            WebHost.CreateDefaultBuilder(args)
+                .UseKestrel(options => options.AddServerHeader = false)
+                .UseStartup<Startup>()
+                .Build()
+                .Run();
         }
     }
 }

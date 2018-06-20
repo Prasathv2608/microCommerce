@@ -27,7 +27,7 @@ namespace microCommerce.Ioc
         }
         #endregion
 
-        public virtual IServiceProvider RegisterDependencies(IServiceCollection services, IConfigurationRoot configuration, IAppConfiguration config)
+        public virtual IServiceProvider RegisterDependencies(IServiceCollection services, IConfiguration configuration, IAppConfiguration config)
         {
             var containerBuilder = new ContainerBuilder();
 
@@ -62,7 +62,7 @@ namespace microCommerce.Ioc
             {
                 ContainerBuilder = containerBuilder,
                 AssemblyHelper = assemblyHelper,
-                ConfigurationRoot = configuration,
+                Configuration = configuration,
                 AppConfig = config
             };
 

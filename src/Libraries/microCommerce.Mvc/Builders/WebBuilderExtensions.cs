@@ -39,6 +39,8 @@ namespace microCommerce.Mvc.Builders
             app.UseHangfireServer();
             app.UseHangfireDashboard();
 
+            app.UseMiniProfiler();
+
             //set culture by user data
             app.UseCulture();
         }

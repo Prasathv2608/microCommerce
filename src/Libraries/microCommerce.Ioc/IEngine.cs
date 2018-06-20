@@ -13,7 +13,7 @@ namespace microCommerce.Ioc
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
-        IServiceProvider RegisterDependencies(IServiceCollection services, IConfigurationRoot configuration, IAppConfiguration config);
+        IServiceProvider RegisterDependencies(IServiceCollection services, IConfiguration configuration, IAppConfiguration config);
 
         /// <summary>
         /// Resolve dependency

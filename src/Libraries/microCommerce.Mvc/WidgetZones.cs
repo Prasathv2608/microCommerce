@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace microCommerce.Mvc
+﻿namespace microCommerce.Mvc
 {
     public class WidgetZones
     {

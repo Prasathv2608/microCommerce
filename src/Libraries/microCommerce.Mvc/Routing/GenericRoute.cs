@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace microCommerce.Mvc.Routing
 {
-    public class GenericRoute : LocalizedRoute
+    public class GenericRoute : Route
     {
         #region Fields
         private readonly IRouter _target;
@@ -44,9 +44,7 @@ namespace microCommerce.Mvc.Routing
             var seoSettings = EngineContext.Current.Resolve<SeoSettings>();
             //remove language code from the path if it's localized URL
             var path = context.HttpContext.Request.Path.Value;
-            if (seoSettings.SeoFriendlyUrlsForLanguagesEnabled && path.IsLocalizedUrl(context.HttpContext.Request.PathBase, false, out string _))
-                path = path.RemoveLanguageSeoCodeFromUrl(context.HttpContext.Request.PathBase, false);
-
+            
             //parse route data
             var routeValues = new RouteValueDictionary(this.ParsedTemplate.Parameters
                 .Where(parameter => parameter.DefaultValue != null)

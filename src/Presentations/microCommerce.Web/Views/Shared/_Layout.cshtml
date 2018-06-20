@@ -1,15 +1,36 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Html.AddStyle("~/css/bootstrap.min.css");
+    Html.AddStyle("~/css/font-awesome.min.css");
+    Html.AddStyle("~/css/owl.carousel.css");
+    Html.AddStyle("~/css/owl.theme.default.css");
+    Html.AddStyle("~/css/animate.css");
+
+    Html.AddScript("~/scripts/jquery-3.2.1.min.js");
+    Html.AddScript(ResourceLocation.Footer, "~/scripts/popper.js");
+    Html.AddScript(ResourceLocation.Footer, "~/scripts/bootstrap.min.js");
+    Html.AddScript(ResourceLocation.Footer, "~/scripts/isotope.min.js");
+    Html.AddScript(ResourceLocation.Footer, "~/scripts/owl.carousel.js");
+    Html.AddScript(ResourceLocation.Footer, "~/scripts/easing.js");
+}
+<!DOCTYPE html>
 <html>
 <head>
-    @await Component.InvokeAsync("Head")
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>@Html.RenderTitle()</title>
+    <meta name="description" content="@Html.RenderMetaDescription()" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    @Html.RenderStyles(this.Url)
+    @Html.RenderScripts(this.Url, ResourceLocation.Head)
 </head>
 <body>
     <div class="super_container">
         @await Component.InvokeAsync("Header")
         @await Component.InvokeAsync("TopMenu")
         @RenderBody()
+        @await Component.InvokeAsync("NewsletterBox")
         @await Component.InvokeAsync("Footer")
     </div>
-    @await Component.InvokeAsync("Script")
+    @Html.RenderScripts(this.Url, ResourceLocation.Footer)
 </body>
 </html>

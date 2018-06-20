@@ -217,7 +217,7 @@ namespace microCommerce.Mvc
         public virtual string GetCurrentHost(bool useSsl)
         {
             var result = string.Empty;
-            
+
             if (!IsRequestAvailable())
                 return result;
 

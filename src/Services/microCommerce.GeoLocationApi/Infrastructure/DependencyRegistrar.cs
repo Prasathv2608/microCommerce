@@ -36,7 +36,5 @@ namespace microCommerce.GeoLocationApi.Infrastructure
             //register services
             builder.RegisterType<MaxMindProvider>().As<ILocationProvider>().InstancePerLifetimeScope();
         }
-
-        public int Priority => 1;
     }
 }

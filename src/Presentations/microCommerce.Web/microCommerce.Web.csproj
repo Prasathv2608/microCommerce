@@ -10,10 +10,18 @@
     <ProjectReference Include="..\..\Libraries\microCommerce.Providers\microCommerce.Providers.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\logs\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="wwwroot\error.html" />
     <None Include="wwwroot\notfound.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Views\Category\Detail.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\Components\HomeBlogPosts.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\Components\Widget.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 </Project>

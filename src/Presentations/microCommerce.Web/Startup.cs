@@ -19,6 +19,10 @@ namespace microCommerce.Web
         /// </summary>
         public IHostingEnvironment Environment { get; }
         
+        /// <summary>
+        /// Startup constructure
+        /// </summary>
+        /// <param name="env"></param>
         public Startup(IHostingEnvironment env)
         {
             //create configuration

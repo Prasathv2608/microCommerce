@@ -9,10 +9,5 @@ namespace microCommerce.Ioc
         /// <param name="typeFinder">Type finder</param>
         /// <param name="config">Config</param>
         void Register(DependencyContext context);
-
-        /// <summary>
-        /// Gets order of this dependency registrar implementation
-        /// </summary>
-        int Priority { get; }
     }
 }

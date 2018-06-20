@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 
 /******************************
@@ -1144,7 +1144,7 @@ section
 
 .product_section_container
 {
-	margin-top: 150px;
+	margin-top: 60px;
 }
 .product_section
 {

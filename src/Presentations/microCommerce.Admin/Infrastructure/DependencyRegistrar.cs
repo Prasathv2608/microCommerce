@@ -70,7 +70,5 @@ namespace microCommerce.Admin.Infrastructure
 
             builder.RegisterInstance(new StoreSettings());
         }
-
-        public int Priority => 1;
     }
 }

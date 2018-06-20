@@ -1,0 +1,5 @@
+@model IList<WidgetViewModel>
+@foreach (var widget in Model)
+{
+    @await Component.InvokeAsync(widget.ViewComponentName, widget.ViewComponentArguments);
+}

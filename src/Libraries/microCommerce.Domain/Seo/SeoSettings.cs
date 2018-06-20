@@ -41,20 +41,5 @@
         /// A value indicating whether Open Graph META tags should be generated
         /// </summary>
         public bool OpenGraphMetaTags { get; set; }
-
-        /// <summary>
-        /// Custom tags in the <![CDATA[<head></head>]]> section
-        /// </summary>
-        public string CustomHeadTags { get; set; }
-        
-        /// <summary>
-        /// A value indicating whether canonical URL tags should be used
-        /// </summary>
-        public bool CanonicalUrlsEnabled { get; set; }
-
-        /// <summary>
-        /// A value indicating whether SEO friendly URLs with multiple languages are enabled
-        /// </summary>
-        public bool SeoFriendlyUrlsForLanguagesEnabled { get; set; }
     }
 }

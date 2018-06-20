@@ -57,7 +57,5 @@ namespace microCommerce.ProductApi.Infrastructure
             //work context
             builder.RegisterType<WebWorkContext>().As<IWorkContext>().InstancePerLifetimeScope();
         }
-
-        public int Priority => 1;
     }
 }

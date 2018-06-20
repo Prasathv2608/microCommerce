@@ -40,7 +40,7 @@ namespace microCommerce.Mvc.UI
         /// </summary>
         /// <returns>Generated string</returns>
         string RenderMetaDescription();
-        
+
         /// <summary>
         /// Add script element
         /// </summary>
@@ -69,7 +69,7 @@ namespace microCommerce.Mvc.UI
         /// <param name="bundleFiles">A value indicating whether to bundle script elements</param>
         /// <returns>Generated string</returns>
         string RenderScripts(IUrlHelper urlHelper, ResourceLocation location);
-        
+
         /// <summary>
         /// Add CSS element
         /// </summary>

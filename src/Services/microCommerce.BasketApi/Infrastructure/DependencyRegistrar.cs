@@ -57,7 +57,5 @@ namespace microCommerce.BasketApi.Infrastructure
             //work context
             builder.RegisterType<WebWorkContext>().As<IWorkContext>().InstancePerLifetimeScope();
         }
-
-        public int Priority => 1;
     }
 }

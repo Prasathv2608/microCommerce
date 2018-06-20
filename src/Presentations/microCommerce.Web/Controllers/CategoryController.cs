@@ -1,15 +1,12 @@
 ﻿using microCommerce.Mvc.Controllers;
+using microCommerce.Web.Models.Categories;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace microCommerce.Web.Controllers
 {
     public class CategoryController : FrontBaseController
     {
-        public IActionResult Index()
+        public virtual IActionResult Detail(int categoryId, CategoryFilterContext filterContext)
         {
             return View();
         }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace microCommerce.Ioc
 {
@@ -42,8 +43,20 @@ namespace microCommerce.Ioc
 
             //create and sort instances of dependency registrars
             var instances = dependencyRegistrars
-                .Select(dependencyRegistrar => (IDependencyRegistrar)Activator.CreateInstance(dependencyRegistrar))
-                .OrderBy(dependencyRegistrar => dependencyRegistrar.Priority);
+                .Select(dependencyRegistrar => (IDependencyRegistrar)Activator.CreateInstance(dependencyRegistrar));
+            //.OrderBy(dependencyRegistrar => dependencyRegistrar.Priority);
+
+            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                .AssignableTo<ITransientDependency>()
+                .InstancePerDependency();
+
+            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                .AssignableTo<ILifetimeScopeDependency>()
+                .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                .AssignableTo<ISingletonDependency>()
+                .SingleInstance();
 
             var dependencyConfig = new DependencyContext
             {

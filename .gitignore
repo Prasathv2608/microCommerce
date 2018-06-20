@@ -423,5 +423,9 @@ typings/
 # By default, sensitive information, such as encrypted password
 # should be stored in the .pubxml.user file.
 
+src/Presentations/microCommerce.Web/Plugins/*
+src/Presentations/microCommerce.Web/wwwroot/bundles/*
+src/Presentations/microCommerce.Web/wwwroot/logs/*
+!src/Presentations/microCommerce.Web/wwwroot/logs/placeholder.txt
 
 # End of https://www.gitignore.io/api/aspnetcore,visualstudio,visualstudiocode

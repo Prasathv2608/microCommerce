@@ -2,7 +2,6 @@
 using microCommerce.Ioc;
 using microCommerce.Logging;
 using microCommerce.Mvc.Infrastructure;
-using microCommerce.Mvc.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +10,7 @@ using Microsoft.AspNetCore.Routing;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 
 namespace microCommerce.Mvc.Builders
 {
@@ -22,7 +22,7 @@ namespace microCommerce.Mvc.Builders
             app.UseResponseCompression();
 
             //exception handling
-            app.UseCustomExceptionHandler();
+            app.UseCustomExceptionHandler(env);
 
             //not found handling
             app.UseCustomPageNotFound();
@@ -35,6 +35,9 @@ namespace microCommerce.Mvc.Builders
 
             //use mvc engine
             app.UseMvc(RegisterRoutes);
+
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
 
             //set culture by user data
             app.UseCulture();
@@ -57,10 +60,9 @@ namespace microCommerce.Mvc.Builders
                     template: "{controller=Home}/{action=Index}/{id?}");
         }
 
-        private static void UseCustomExceptionHandler(this IApplicationBuilder application)
+        private static void UseCustomExceptionHandler(this IApplicationBuilder application, IHostingEnvironment env)
         {
-            var hostingEnvironment = EngineContext.Current.Resolve<IHostingEnvironment>();
-            if (hostingEnvironment.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 //get detailed exceptions for developing and testing purposes
                 application.UseDeveloperExceptionPage();
@@ -73,8 +75,7 @@ namespace microCommerce.Mvc.Builders
 
             //log errors
             application.UseExceptionHandler(handler =>
-            {
-                
+            {                
                 handler.Run(context =>
                 {
                     var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
@@ -115,11 +116,6 @@ namespace microCommerce.Mvc.Builders
                     }
                 }
             });
-        }
-
-        private static void UseCulture(this IApplicationBuilder application)
-        {
-            application.UseMiddleware<CultureMiddleware>();
-        }
+        }        
     }
 }

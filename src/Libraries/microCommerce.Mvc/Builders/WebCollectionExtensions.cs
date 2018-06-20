@@ -1,12 +1,10 @@
-﻿using microCommerce.Common.Configurations;
+﻿using Hangfire;
+using Hangfire.MemoryStorage;
+using microCommerce.Common.Configurations;
 using microCommerce.Ioc;
-using microCommerce.Module.Core;
 using microCommerce.Mvc.UI;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.WebEncoders;
@@ -43,15 +41,18 @@ namespace microCommerce.Mvc.Builders
             services.AddTextEncoder();
 
             //add response compression
-            services.AddCustomResponseCompression();
+            services.AddGzipResponseCompression();
 
             //add mvc engine
             var builder = services.AddMvc();
+            
+            services.AddHangfire(hf => hf.UseMemoryStorage());
 
             //add custom view engine
             services.AddViewEngine();
 
-            if (environment.ApplicationName.Equals("microCommerce.Web"))
+            if (environment.ApplicationName.Equals("microCommerce.Web",
+                StringComparison.InvariantCultureIgnoreCase))
             {
                 //add theme support
                 services.AddThemeSupport();
@@ -73,19 +74,6 @@ namespace microCommerce.Mvc.Builders
             builder.AddModuleFeatures(services);
 
             return serviceProvider;
-        }
-
-        private static IMvcBuilder AddModuleFeatures(this IMvcBuilder builder, IServiceCollection services)
-        {
-            services.Configure<RazorViewEngineOptions>(options =>
-            {
-                options.ViewLocationExpanders.Clear();
-                options.ViewLocationExpanders.Add(new ModuleViewLocationExpander());
-            });
-
-            builder.ConfigureApplicationPartManager(manager => ModuleManager.Initialize(manager));
-
-            return builder;
         }
 
         private static void AddViewEngine(this IServiceCollection services)
@@ -116,42 +104,11 @@ namespace microCommerce.Mvc.Builders
             });
         }
 
-        /// <summary>
-        /// Register HttpContextAccessor
-        /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
-        private static void AddHttpContextAccessor(this IServiceCollection services)
-        {
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        }
-
         private static void AddTextEncoder(this IServiceCollection services)
         {
             services.Configure<WebEncoderOptions>(options =>
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
-            });
-        }
-
-        private static void AddCustomResponseCompression(this IServiceCollection services)
-        {
-            services.AddResponseCompression(options =>
-            {
-                options.Providers.Add<GzipCompressionProvider>();
-                options.EnableForHttps = true;
-                options.MimeTypes = new[] {
-                    // Default
-                    "text/plain",
-                    "text/css",
-                    "application/javascript",
-                    "text/html",
-                    "application/xml",
-                    "text/xml",
-                    "application/json",
-                    "text/json",
-                    // Custom
-                    "image/svg+xml"
-                };
             });
         }
 
@@ -189,30 +146,6 @@ namespace microCommerce.Mvc.Builders
                 options.Cookie.HttpOnly = true;
                 options.IdleTimeout = TimeSpan.FromMinutes(60);
             });
-        }
-
-        /// <summary>
-        /// Create, bind and register as service the specified configuration parameters
-        /// </summary>
-        /// <typeparam name="TConfig">Configuration parameters</typeparam>
-        /// <param name="services">Collection of service descriptors</param>
-        /// <param name="configuration">Set of key/value application configuration properties</param>
-        /// <returns>Instance of configuration parameters</returns>
-        private static TConfig ConfigureStartupConfig<TConfig>(this IServiceCollection services, IConfiguration configuration) where TConfig : class, new()
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-
-            //create instance of config
-            var config = new TConfig();
-
-            //bind it to the appropriate section of configuration
-            configuration.Bind(config);
-
-            return config;
         }
     }
 }

@@ -81,7 +81,7 @@ namespace microCommerce.Common
         /// </summary>
         /// <param name="makeRedirect">A value indicating whether we should made redirection after restart</param>
         void RestartAppDomain(bool makeRedirect = false);
-        
+
         /// <summary>
         /// Gets a value that indicates whether the client is being redirected to a new location
         /// </summary>

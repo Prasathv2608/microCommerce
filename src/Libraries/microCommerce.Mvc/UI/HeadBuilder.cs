@@ -235,7 +235,7 @@ namespace microCommerce.Mvc.UI
 
             if (!_scriptParts.Any())
                 return "";
-            
+
             if (_seoSettings.EnableJsBundling)
             {
                 var partsToBundle = _scriptParts[location]
@@ -257,7 +257,7 @@ namespace microCommerce.Mvc.UI
                     _fileProvider.CreateDirectory(_fileProvider.GetAbsolutePath("bundles"));
 
                     var bundle = new Bundle();
-                    foreach (var item in partsToBundle.Reverse())
+                    foreach (var item in partsToBundle)
                     {
                         new PathString(urlHelper.Content(item.Src))
                             .StartsWithSegments(urlHelper.ActionContext.HttpContext.Request.PathBase, out PathString path);

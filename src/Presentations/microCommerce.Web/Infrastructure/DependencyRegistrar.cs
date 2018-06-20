@@ -68,8 +68,16 @@ namespace microCommerce.Web.Infrastructure
             builder.RegisterType<WebWorkContext>().As<IWorkContext>().InstancePerLifetimeScope();
 
             builder.RegisterInstance(new StoreSettings { DefaultTheme = "Default" });
+            builder.RegisterInstance(new SeoSettings
+            {
+                PageTitleSeparator = " - ",
+                DefaultTitle = "microCommerce",
+                DefaultMetaDescription = "Simple Microservice Architecture E-Commerce Solutions",
+                EnableCssBundling = false,
+                EnableJsBundling = false,
+                OpenGraphMetaTags = false,
+                TwitterMetaTags = false
+            });
         }
-
-        public int Priority => 1;
     }
 }

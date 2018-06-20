@@ -54,7 +54,5 @@ namespace microCommerce.MediaApi.Infrastructure
             //providers
             builder.RegisterType<PictureProvider>().As<IPictureProvider>().InstancePerLifetimeScope();
         }
-
-        public int Priority => 1;
     }
 }

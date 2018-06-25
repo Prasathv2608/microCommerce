@@ -1,5 +1,4 @@
-﻿using BiletKesfet.Common;
-using BundlerMinifier;
+﻿using BundlerMinifier;
 using microCommerce.Caching;
 using microCommerce.Common;
 using microCommerce.Domain.Settings;
@@ -27,8 +26,12 @@ namespace microCommerce.Mvc.UI
 
         private readonly List<string> _titleParts;
         private readonly List<string> _metaDescriptionParts;
-        private readonly Dictionary<ResourceLocation, List<ScriptReferenceMeta>> _scriptParts;
-        private readonly List<StyleReferenceMeta> _styleParts;
+        private readonly Dictionary<ResourceLocation, List<BundleMeta>> _scriptParts;
+        private readonly List<BundleMeta> _styleParts;
+
+        private const string BundleFolder = "bundles";
+        private const string StyleCacheKey = "minification-styles-{0}";
+        private const string ScriptsCacheKey = "minification-scripts-{0}";
 
         //in minutes
         private const int RecheckBundledFilesPeriod = 120;
@@ -46,8 +49,8 @@ namespace microCommerce.Mvc.UI
 
             _titleParts = new List<string>();
             _metaDescriptionParts = new List<string>();
-            _scriptParts = new Dictionary<ResourceLocation, List<ScriptReferenceMeta>>();
-            _styleParts = new List<StyleReferenceMeta>();
+            _scriptParts = new Dictionary<ResourceLocation, List<BundleMeta>>();
+            _styleParts = new List<BundleMeta>();
         }
 
         /// <summary>
@@ -91,7 +94,8 @@ namespace microCommerce.Mvc.UI
             if (string.IsNullOrEmpty(part))
                 return;
 
-            _titleParts.Add(part);
+            if (!_titleParts.Contains(part))
+                _titleParts.Add(part);
         }
 
         /// <summary>
@@ -103,7 +107,8 @@ namespace microCommerce.Mvc.UI
             if (string.IsNullOrEmpty(part))
                 return;
 
-            _titleParts.Insert(0, part);
+            if (!_titleParts.Contains(part))
+                _titleParts.Insert(0, part);
         }
 
         /// <summary>
@@ -146,7 +151,8 @@ namespace microCommerce.Mvc.UI
             if (string.IsNullOrEmpty(part))
                 return;
 
-            _metaDescriptionParts.Add(part);
+            if (!_metaDescriptionParts.Contains(part))
+                _metaDescriptionParts.Add(part);
         }
 
         /// <summary>
@@ -158,7 +164,8 @@ namespace microCommerce.Mvc.UI
             if (string.IsNullOrEmpty(part))
                 return;
 
-            _metaDescriptionParts.Insert(0, part);
+            if (!_metaDescriptionParts.Contains(part))
+                _metaDescriptionParts.Insert(0, part);
         }
 
         /// <summary>
@@ -184,17 +191,19 @@ namespace microCommerce.Mvc.UI
         public virtual void AddScript(ResourceLocation location, string src, bool excludeFromBundle, bool isAsync)
         {
             if (!_scriptParts.ContainsKey(location))
-                _scriptParts.Add(location, new List<ScriptReferenceMeta>());
+                _scriptParts.Add(location, new List<BundleMeta>());
 
             if (string.IsNullOrEmpty(src))
                 return;
 
-            _scriptParts[location].Add(new ScriptReferenceMeta
+            if (!_scriptParts[location].Any(s => s.Path == src))
             {
-                ExcludeFromBundle = excludeFromBundle,
-                IsAsync = isAsync,
-                Src = src
-            });
+                _scriptParts[location].Add(new BundleMeta
+                {
+                    ExcludeFromBundle = excludeFromBundle,
+                    Path = src
+                });
+            }
         }
 
         /// <summary>
@@ -208,17 +217,19 @@ namespace microCommerce.Mvc.UI
         public virtual void AppendScript(ResourceLocation location, string src, bool excludeFromBundle, bool isAsync)
         {
             if (!_scriptParts.ContainsKey(location))
-                _scriptParts.Add(location, new List<ScriptReferenceMeta>());
+                _scriptParts.Add(location, new List<BundleMeta>());
 
             if (string.IsNullOrEmpty(src))
                 return;
 
-            _scriptParts[location].Insert(0, new ScriptReferenceMeta
+            if (!_scriptParts[location].Any(s => s.Path == src))
             {
-                ExcludeFromBundle = excludeFromBundle,
-                IsAsync = isAsync,
-                Src = src
-            });
+                _scriptParts[location].Insert(0, new BundleMeta
+                {
+                    ExcludeFromBundle = excludeFromBundle,
+                    Path = src
+                });
+            }
         }
 
         /// <summary>
@@ -231,10 +242,10 @@ namespace microCommerce.Mvc.UI
         public virtual string RenderScripts(IUrlHelper urlHelper, ResourceLocation location)
         {
             if (!_scriptParts.ContainsKey(location) || _scriptParts[location] == null)
-                return "";
+                return string.Empty;
 
             if (!_scriptParts.Any())
-                return "";
+                return string.Empty;
 
             if (_seoSettings.EnableJsBundling)
             {
@@ -254,33 +265,25 @@ namespace microCommerce.Mvc.UI
                 if (partsToBundle.Any())
                 {
                     //ensure \bundles directory exists
-                    _fileProvider.CreateDirectory(_fileProvider.GetAbsolutePath("bundles"));
+                    _fileProvider.CreateDirectory(_fileProvider.GetAbsolutePath(BundleFolder));
 
                     var bundle = new Bundle();
                     foreach (var item in partsToBundle)
                     {
-                        new PathString(urlHelper.Content(item.Src))
-                            .StartsWithSegments(urlHelper.ActionContext.HttpContext.Request.PathBase, out PathString path);
-                        var src = path.Value.TrimStart('/');
-
-                        //check whether this file exists, if not it should be stored into /wwwroot directory
-                        if (!_fileProvider.FileExists(_fileProvider.MapPath(path)))
-                            src = $"wwwroot/{src}";
-
+                        string src = $"wwwroot{urlHelper.Content(item.Path)}";
                         bundle.InputFiles.Add(src);
                     }
+
                     //output file
-                    var outputFileName = GetBundleFileName(partsToBundle.Select(x => x.Src).ToArray());
-                    bundle.OutputFileName = "wwwroot/bundles/" + outputFileName + ".js";
+                    var outputFileName = GetBundleFileName(partsToBundle.Select(x => x.Path).ToArray());
+                    bundle.OutputFileName = $"wwwroot/{BundleFolder}/{outputFileName}.js";
+
                     //save
-                    var configFilePath = _hostingEnvironment.ContentRootPath + "\\" + outputFileName + ".json";
+                    var configFilePath = $"{_hostingEnvironment.ContentRootPath}\\{outputFileName}.json";
                     bundle.FileName = configFilePath;
                     lock (s_lock)
                     {
-                        //performance optimization. do not bundle and minify for each HTTP request
-                        //we periodically re-check already bundles file
-                        //so if we have minification enabled, it could take up to several minutes to see changes in updated resource files (or just reset the cache or restart the site)
-                        var cacheKey = $"minification.shouldrebuild.scripts-{outputFileName}";
+                        var cacheKey = string.Format(ScriptsCacheKey, outputFileName);
                         var shouldRebuild = _cacheManager.Get(cacheKey, RecheckBundledFilesPeriod, () => true);
                         if (shouldRebuild)
                         {
@@ -291,14 +294,14 @@ namespace microCommerce.Mvc.UI
                     }
 
                     //render
-                    result.AppendFormat("<script src=\"{0}\"></script>", urlHelper.Content("~/bundles/" + outputFileName + ".min.js"));
+                    result.AppendFormat("<script src=\"{0}\"></script>", urlHelper.Content($"~/{BundleFolder}/" + outputFileName + ".min.js"));
                     result.Append(Environment.NewLine);
                 }
 
                 //parts to not bundle
                 foreach (var item in partsToDontBundle)
                 {
-                    result.AppendFormat("<script {1}src=\"{0}\"></script>", urlHelper.Content(item.Src), item.IsAsync ? "async " : "");
+                    result.AppendFormat("<script src=\"{0}\"></script>", urlHelper.Content(item.Path));
                     result.Append(Environment.NewLine);
                 }
 
@@ -310,7 +313,7 @@ namespace microCommerce.Mvc.UI
                 var result = new StringBuilder();
                 foreach (var item in _scriptParts[location].Distinct())
                 {
-                    result.AppendFormat("<script {1}src=\"{0}\"></script>", urlHelper.Content(item.Src), item.IsAsync ? "async " : "");
+                    result.AppendFormat("<script {1}src=\"{0}\"></script>", urlHelper.Content(item.Path));
                     result.Append(Environment.NewLine);
                 }
 
@@ -321,61 +324,56 @@ namespace microCommerce.Mvc.UI
         /// <summary>
         /// Add CSS element
         /// </summary>
-        /// <param name="location">A location of the script element</param>
-        /// <param name="src">Script path (minified version)</param>
-        /// <param name="debugSrc">Script path (full debug version). If empty, then minified version will be used</param>
-        /// <param name="excludeFromBundle">A value indicating whether to exclude this script from bundling</param>
+        /// <param name="src">Style/css path (minified version)</param>
+        /// <param name="excludeFromBundle">A value indicating whether to exclude this style/css from bundling</param>
         public virtual void AddStyle(string src, bool excludeFromBundle = false)
         {
             if (string.IsNullOrEmpty(src))
                 return;
 
-            _styleParts.Add(new StyleReferenceMeta
+            if (!_styleParts.Any(s => s.Path == src))
             {
-                ExcludeFromBundle = excludeFromBundle,
-                Src = src
-            });
+                _styleParts.Add(new BundleMeta
+                {
+                    ExcludeFromBundle = excludeFromBundle,
+                    Path = src
+                });
+            }
         }
 
         /// <summary>
         /// Append CSS element
         /// </summary>
-        /// <param name="location">A location of the script element</param>
-        /// <param name="src">Script path (minified version)</param>
-        /// <param name="debugSrc">Script path (full debug version). If empty, then minified version will be used</param>
-        /// <param name="excludeFromBundle">A value indicating whether to exclude this script from bundling</param>
+        /// <param name="src">Style/css path (minified version)</param>
+        /// <param name="excludeFromBundle">A value indicating whether to exclude this style/css from bundling</param>
         public virtual void AppendStyle(string src, bool excludeFromBundle = false)
         {
             if (string.IsNullOrEmpty(src))
                 return;
 
-            _styleParts.Insert(0, new StyleReferenceMeta
+            if (!_styleParts.Any(s => s.Path == src))
             {
-                ExcludeFromBundle = excludeFromBundle,
-                Src = src
-            });
+                _styleParts.Insert(0, new BundleMeta
+                {
+                    ExcludeFromBundle = excludeFromBundle,
+                    Path = src
+                });
+            }
         }
 
         /// <summary>
         /// Generate all CSS parts
         /// </summary>
         /// <param name="urlHelper">URL Helper</param>
-        /// <param name="location">A location of the script element</param>
-        /// <param name="bundleFiles">A value indicating whether to bundle script elements</param>
+        /// <param name="location">A location of the style/css element</param>
+        /// <param name="bundleFiles">A value indicating whether to bundle style/css elements</param>
         /// <returns>Generated string</returns>
         public virtual string RenderStyles(IUrlHelper urlHelper)
         {
             if (!_styleParts.Any())
-                return string.Empty;
+                return "";
 
-            //use setting if no value is specified
-            bool bundleFiles = _seoSettings.EnableCssBundling;
-
-            //CSS bundling is not allowed in virtual directories
-            if (urlHelper.ActionContext.HttpContext.Request.PathBase.HasValue)
-                bundleFiles = false;
-
-            if (bundleFiles)
+            if (_seoSettings.EnableJsBundling)
             {
                 var partsToBundle = _styleParts
                     .Where(x => !x.ExcludeFromBundle)
@@ -388,56 +386,48 @@ namespace microCommerce.Mvc.UI
                     .ToArray();
 
                 var result = new StringBuilder();
+
                 //parts to  bundle
                 if (partsToBundle.Any())
                 {
                     //ensure \bundles directory exists
-                    _fileProvider.CreateDirectory(_fileProvider.GetAbsolutePath("bundles"));
+                    _fileProvider.CreateDirectory(_fileProvider.GetAbsolutePath(BundleFolder));
 
                     var bundle = new Bundle();
                     foreach (var item in partsToBundle)
                     {
-                        new PathString(urlHelper.Content(item.Src))
-                               .StartsWithSegments(urlHelper.ActionContext.HttpContext.Request.PathBase, out PathString path);
-                        var src = path.Value.TrimStart('/');
-
-                        //check whether this file exists, if not it should be stored into /wwwroot directory
-                        if (!_fileProvider.FileExists(_fileProvider.MapPath(path)))
-                            src = $"wwwroot/{src}";
-
+                        string src = $"wwwroot{urlHelper.Content(item.Path)}";
                         bundle.InputFiles.Add(src);
                     }
 
                     //output file
-                    string outputFileName = GetBundleFileName(partsToBundle.Select(x => x.Src).ToArray());
-                    bundle.OutputFileName = "wwwroot/bundles/" + outputFileName + ".css";
+                    var outputFileName = GetBundleFileName(partsToBundle.Select(x => x.Path).ToArray());
+                    bundle.OutputFileName = $"wwwroot/{BundleFolder}/{outputFileName}.css";
+
                     //save
-                    var configFilePath = _hostingEnvironment.ContentRootPath + "\\" + outputFileName + ".json";
+                    var configFilePath = $"{_hostingEnvironment.ContentRootPath}\\{outputFileName}.json";
                     bundle.FileName = configFilePath;
                     lock (s_lock)
                     {
-                        //performance optimization. do not bundle and minify for each HTTP request
-                        //we periodically re-check already bundles file
-                        //so if we have minification enabled, it could take up to several minutes to see changes in updated resource files (or just reset the cache or restart the site)
-                        var cacheKey = $"minification.shouldrebuild.styles-{outputFileName}";
+                        var cacheKey = string.Format(StyleCacheKey, outputFileName);
                         var shouldRebuild = _cacheManager.Get(cacheKey, RecheckBundledFilesPeriod, () => true);
                         if (shouldRebuild)
                         {
                             //process
-                            _processor.Process(configFilePath, new List<Bundle> { bundle });
+                            bool processResult = _processor.Process(configFilePath, new List<Bundle> { bundle });
                             _cacheManager.Set(cacheKey, false, RecheckBundledFilesPeriod);
                         }
                     }
 
                     //render
-                    result.AppendFormat("<link href=\"{0}\" rel=\"stylesheet\" />", urlHelper.Content("~/bundles/" + outputFileName + ".min.css"));
+                    result.AppendFormat("<link rel=\"stylesheet\" href=\"{0}\" />", urlHelper.Content($"~/{BundleFolder}/" + outputFileName + ".min.css"));
                     result.Append(Environment.NewLine);
                 }
 
-                //parts not to bundle
+                //parts to not bundle
                 foreach (var item in partsToDontBundle)
                 {
-                    result.AppendFormat("<link href=\"{0}\" rel=\"stylesheet\" />", urlHelper.Content(item.Src));
+                    result.AppendFormat("<link rel=\"stylesheet\" href=\"{0}\" />", urlHelper.Content(item.Path));
                     result.Append(Environment.NewLine);
                 }
 
@@ -449,8 +439,8 @@ namespace microCommerce.Mvc.UI
                 var result = new StringBuilder();
                 foreach (var item in _styleParts.Distinct())
                 {
-                    result.AppendFormat("<link href=\"{0}\" rel=\"stylesheet\" />", urlHelper.Content(item.Src));
-                    result.AppendLine();
+                    result.AppendFormat("<link rel=\"stylesheet\" href=\"{0}\" />", urlHelper.Content(item.Path));
+                    result.Append(Environment.NewLine);
                 }
 
                 return result.ToString();

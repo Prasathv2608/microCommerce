@@ -1,15 +1,21 @@
 using microCommerce.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace microCommerce.Web.Controllers
 {
-    public class BlogController : FrontBaseController
+    public class BlogController : WebBaseController
     {
-        public IActionResult Index()
+        public virtual IActionResult Index()
+        {
+            return View();
+        }
+
+        public virtual IActionResult Category(int categoryId)
+        {
+            return View();
+        }
+
+        public virtual IActionResult Detail(int postId)
         {
             return View();
         }

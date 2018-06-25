@@ -1,16 +1,18 @@
 ﻿@{
-    Html.AddStyle("~/css/bootstrap.min.css");
-    Html.AddStyle("~/css/font-awesome.min.css");
-    Html.AddStyle("~/css/owl.carousel.css");
-    Html.AddStyle("~/css/owl.theme.default.css");
-    Html.AddStyle("~/css/animate.css");
+    Html.AppendStyle("~/css/animate.css");
+    Html.AppendStyle("~/css/owl.theme.default.css");
+    Html.AppendStyle("~/css/owl.carousel.css");
+    Html.AppendStyle("~/css/font-awesome.min.css");
+    Html.AppendStyle("~/css/bootstrap.min.css");
+    Html.AppendStyle("~/css/jquery-ui.css");
 
-    Html.AddScript("~/scripts/jquery-3.2.1.min.js");
-    Html.AddScript(ResourceLocation.Footer, "~/scripts/popper.js");
-    Html.AddScript(ResourceLocation.Footer, "~/scripts/bootstrap.min.js");
-    Html.AddScript(ResourceLocation.Footer, "~/scripts/isotope.min.js");
-    Html.AddScript(ResourceLocation.Footer, "~/scripts/owl.carousel.js");
-    Html.AddScript(ResourceLocation.Footer, "~/scripts/easing.js");
+    Html.AppendScript(ResourceLocation.Footer, "~/scripts/owl.carousel.js");
+    Html.AppendScript(ResourceLocation.Footer, "~/scripts/easing.js");
+    Html.AppendScript(ResourceLocation.Footer, "~/scripts/isotope.min.js");
+    Html.AppendScript(ResourceLocation.Footer, "~/scripts/bootstrap.min.js");
+    Html.AppendScript(ResourceLocation.Footer, "~/scripts/popper.js");
+    Html.AppendScript(ResourceLocation.Footer, "~/scripts/jquery-ui.js");
+    Html.AppendScript("~/scripts/jquery-3.2.1.min.js");
 }
 <!DOCTYPE html>
 <html>

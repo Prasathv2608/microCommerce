@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace microCommerce.Web.Controllers
 {
-    public class PageController : FrontBaseController
+    public class PageController : WebBaseController
     {
         public IActionResult Detail(int pageId)
         {

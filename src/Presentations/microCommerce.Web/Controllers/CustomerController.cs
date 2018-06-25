@@ -1,20 +1,34 @@
 ﻿using microCommerce.Mvc.Controllers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace microCommerce.Web.Controllers
 {
-    public class CustomerController : FrontBaseController
+    public class CustomerController : WebBaseController
     {
         public virtual IActionResult Login()
         {
             return View();
         }
 
+        [HttpPost]
+        public virtual IActionResult Login(IFormCollection form)
+        {
+            return View();
+        }
+
         public virtual IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public virtual IActionResult Register(IFormCollection form)
+        {
+            return View();
+        }
+
+        public virtual IActionResult RecoveryPassword()
         {
             return View();
         }

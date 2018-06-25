@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Security.AccessControl;
 using System.Text;
 
-namespace BiletKesfet.Common
+namespace microCommerce.Common
 {
     public interface ICustomFileProvider : IFileProvider
     {

@@ -1,5 +1,4 @@
-﻿using BiletKesfet.Common;
-using Dapper;
+﻿using Dapper;
 using microCommerce.Caching;
 using microCommerce.Common;
 using microCommerce.Dapper;

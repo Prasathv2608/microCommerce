@@ -51,6 +51,8 @@ namespace microCommerce.Common
         /// <returns>True if the request targets a static resource file.</returns>
         bool IsStaticResource();
 
+        bool IsStaticResource(string fileExtension);
+
         /// <summary>
         /// Modifies query string
         /// </summary>

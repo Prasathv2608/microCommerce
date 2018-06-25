@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace microCommerce.Web.Controllers
 {
-    public class HomeController : FrontBaseController
+    public class HomeController : WebBaseController
     {
         public IActionResult Index()
         {

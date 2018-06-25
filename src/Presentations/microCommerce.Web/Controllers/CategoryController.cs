@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace microCommerce.Web.Controllers
 {
-    public class CategoryController : FrontBaseController
+    public class CategoryController : WebBaseController
     {
         public virtual IActionResult Detail(int categoryId, CategoryFilterContext filterContext)
         {

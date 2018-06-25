@@ -1,5 +1,4 @@
-﻿using BiletKesfet.Common;
-using microCommerce.Common;
+﻿using microCommerce.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

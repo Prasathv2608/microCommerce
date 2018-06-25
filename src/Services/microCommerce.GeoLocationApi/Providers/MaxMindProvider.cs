@@ -1,6 +1,6 @@
-﻿using BiletKesfet.Common;
-using MaxMind.GeoIP2;
+﻿using MaxMind.GeoIP2;
 using MaxMind.GeoIP2.Exceptions;
+using microCommerce.Common;
 using microCommerce.Domain.Settings;
 using microCommerce.Logging;
 using System;

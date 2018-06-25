@@ -1,5 +1,4 @@
-﻿using BiletKesfet.Common;
-using microCommerce.Common;
+﻿using microCommerce.Common;
 using microCommerce.Ioc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Newtonsoft.Json;

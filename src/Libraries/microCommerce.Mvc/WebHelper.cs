@@ -1,4 +1,3 @@
-using BiletKesfet.Common;
 using microCommerce.Common;
 using microCommerce.Common.Configurations;
 using Microsoft.AspNetCore.Http;
@@ -271,13 +270,21 @@ namespace microCommerce.Mvc
             if (!IsRequestAvailable())
                 return false;
 
-            string path = _httpContextAccessor.HttpContext.Request.Path;
-
-            //a little workaround. FileExtensionContentTypeProvider contains most of static file extensions. So we can use it
-            //source: https://github.com/aspnet/StaticFiles/blob/dev/src/Microsoft.AspNetCore.StaticFiles/FileExtensionContentTypeProvider.cs
-            //if it can return content type, then it's a static file
+            string path = _httpContextAccessor.HttpContext.Request.Path;                        
             var contentTypeProvider = new FileExtensionContentTypeProvider();
             return contentTypeProvider.TryGetContentType(path, out string _);
+        }
+
+        public virtual bool IsStaticResource(string fileExtension)
+        {
+            if (!IsStaticResource())
+                return false;
+
+            string path = _httpContextAccessor.HttpContext.Request.Path;
+            var contentTypeProvider = new FileExtensionContentTypeProvider();
+            contentTypeProvider.TryGetContentType(path, out string extension);
+
+            return string.Equals(fileExtension, extension, StringComparison.InvariantCultureIgnoreCase);
         }
 
         /// <summary>

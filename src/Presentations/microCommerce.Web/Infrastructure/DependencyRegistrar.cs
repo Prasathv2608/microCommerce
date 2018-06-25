@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using BiletKesfet.Common;
 using microCommerce.Caching;
 using microCommerce.Common;
 using microCommerce.Domain.Settings;
@@ -73,8 +72,8 @@ namespace microCommerce.Web.Infrastructure
                 PageTitleSeparator = " - ",
                 DefaultTitle = "microCommerce",
                 DefaultMetaDescription = "Simple Microservice Architecture E-Commerce Solutions",
-                EnableCssBundling = false,
-                EnableJsBundling = false,
+                EnableCssBundling = true,
+                EnableJsBundling = true,
                 OpenGraphMetaTags = false,
                 TwitterMetaTags = false
             });

@@ -8,7 +8,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 
-namespace BiletKesfet.Common
+namespace microCommerce.Common
 {
     public class CustomFileProvider : PhysicalFileProvider, ICustomFileProvider
     {

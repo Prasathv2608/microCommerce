@@ -105,7 +105,7 @@ namespace microCommerce.Mvc.Builders
                 if (context.HttpContext.Response.StatusCode == StatusCodes.Status404NotFound)
                 {
                     var webHelper = IocContainer.Current.Resolve<IWebHelper>();
-                    if (!webHelper.IsStaticResource())
+                    if (webHelper.IsStaticResource("text/html") || !webHelper.IsStaticResource())
                     {
                         //get new path
                         context.HttpContext.Request.Path = "/notfound.html";

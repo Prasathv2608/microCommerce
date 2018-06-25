@@ -13,7 +13,7 @@ namespace microCommerce.BasketApi
         /// <summary>
         /// Gets the application configuration
         /// </summary>
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// Gets the hosting environments
@@ -24,15 +24,10 @@ namespace microCommerce.BasketApi
         /// Startup constructure
         /// </summary>
         /// <param name="environment"></param>
-        public Startup(IHostingEnvironment environment)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
+            Configuration = configuration;
             Environment = environment;
-
-            Configuration = new ConfigurationBuilder()
-                .SetBasePath(environment.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables(prefix: "ASPNETCORE_")
-                .Build();
         }
 
         /// <summary>
@@ -41,7 +36,7 @@ namespace microCommerce.BasketApi
         /// <param name="services"></param>
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            return services.ConfigureApiServices(Configuration, Environment);
+            return services.ConfigureServices(Configuration, Environment);
         }
 
         /// <summary>
@@ -51,7 +46,7 @@ namespace microCommerce.BasketApi
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app)
         {
-            app.ConfigureApiPipeline(Environment);
+            app.ConfigurePipeline(Environment);
         }
     }
 
@@ -59,11 +54,12 @@ namespace microCommerce.BasketApi
     {
         public static void Main(string[] args)
         {
-            WebHost.CreateDefaultBuilder(args)
-                .UseKestrel(options => options.AddServerHeader = false)
-                .UseStartup<Startup>()
-                .Build()
-                .Run();
+            var host = WebHost.CreateDefaultBuilder(args)
+                 .UseKestrel(options => options.AddServerHeader = false)
+                 .UseStartup<Startup>()
+                 .Build();
+
+            host.Run();
         }
     }
 }

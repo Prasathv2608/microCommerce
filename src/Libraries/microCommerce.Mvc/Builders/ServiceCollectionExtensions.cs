@@ -14,7 +14,7 @@ namespace microCommerce.Mvc.Builders
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceProvider ConfigureApiServices(this IServiceCollection services, IConfigurationRoot configuration, IHostingEnvironment environment)
+        public static IServiceProvider ConfigureApiServices(this IServiceCollection services, IConfiguration configuration, IHostingEnvironment environment)
         {
             //add application configuration parameters
             var config = services.ConfigureStartupConfig<ServiceConfiguration>(configuration.GetSection("Service"));

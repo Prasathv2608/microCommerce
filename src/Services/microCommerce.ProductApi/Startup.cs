@@ -36,7 +36,7 @@ namespace microCommerce.ProductApi
         /// <param name="services"></param>
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            return services.ConfigureServices(Configuration, Environment);
+            return services.ConfigureApiServices(Configuration, Environment);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace microCommerce.ProductApi
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app)
         {
-            app.ConfigurePipeline(Environment);
+            app.ConfigureApiPipeline(Environment);
         }
     }
 

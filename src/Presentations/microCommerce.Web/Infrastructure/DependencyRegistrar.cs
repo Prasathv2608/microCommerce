@@ -5,6 +5,8 @@ using microCommerce.Domain.Settings;
 using microCommerce.Ioc;
 using microCommerce.Logging;
 using microCommerce.Module.Core;
+using microCommerce.Module.Core.Payments;
+using microCommerce.Module.Core.Widgets;
 using microCommerce.Mvc;
 using microCommerce.Mvc.HttpProviders;
 using microCommerce.Mvc.Infrastructure;
@@ -55,6 +57,8 @@ namespace microCommerce.Web.Infrastructure
 
             //module features
             builder.RegisterType<ModuleProvider>().As<IModuleProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<WidgetModuleProvider>().As<IWidgetModuleProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<PaymentModuleProvider>().As<IPaymentModuleProvider>().InstancePerLifetimeScope();
 
             //user agent helper
             builder.RegisterType<UserAgentHelper>().As<IUserAgentHelper>().InstancePerLifetimeScope();
@@ -67,13 +71,15 @@ namespace microCommerce.Web.Infrastructure
             builder.RegisterType<WebWorkContext>().As<IWorkContext>().InstancePerLifetimeScope();
 
             builder.RegisterInstance(new StoreSettings { DefaultTheme = "Default" });
+            builder.RegisterInstance(new WidgetSettings { ActiveWidgetModules = "Widget.Slider" });
+            builder.RegisterInstance(new PaymentSettings { ActivePaymentModules = "Payment.CreditCard" });
             builder.RegisterInstance(new SeoSettings
             {
                 PageTitleSeparator = " - ",
                 DefaultTitle = "microCommerce",
                 DefaultMetaDescription = "Simple Microservice Architecture E-Commerce Solutions",
-                EnableCssBundling = true,
-                EnableJsBundling = true,
+                EnableCssBundling = false,
+                EnableJsBundling = false,
                 OpenGraphMetaTags = false,
                 TwitterMetaTags = false
             });

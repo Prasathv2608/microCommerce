@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace microCommerce.Payment.CreditCard
 {
-    public class CreditCardModule : IPaymentModule
+    public class CreditCardModule : BaseModule, IPaymentModule
     {
         public virtual PaymentConfirmResponse PaymentConfirm(PaymentConfirmRequest request)
         {
@@ -34,26 +34,30 @@ namespace microCommerce.Payment.CreditCard
             throw new NotImplementedException();
         }
 
-        public virtual string GetViewComponent()
+        public virtual string ViewComponentName
         {
-            throw new NotImplementedException();
+            get
+            {
+                return "CreditCard";
+            }
         }
 
-        public virtual string GetConfigureUrl()
+        public override string ConfigurationUrl
         {
-            throw new NotImplementedException();
+            get
+            {
+                return "/Admin/CreditCard/Configure";
+            }
         }
 
-        public virtual void Install()
+        public override void Install()
         {
-            throw new NotImplementedException();
+            base.Install();
         }
 
-        public virtual void Uninstall()
+        public override void Uninstall()
         {
-            throw new NotImplementedException();
+            base.Uninstall();
         }
-
-        public virtual ModuleInfo ModuleInfo { get; set; }
     }
 }

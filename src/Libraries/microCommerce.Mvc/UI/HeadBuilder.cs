@@ -313,7 +313,7 @@ namespace microCommerce.Mvc.UI
                 var result = new StringBuilder();
                 foreach (var item in _scriptParts[location].Distinct())
                 {
-                    result.AppendFormat("<script {1}src=\"{0}\"></script>", urlHelper.Content(item.Path));
+                    result.AppendFormat("<script src=\"{0}\"></script>", urlHelper.Content(item.Path));
                     result.Append(Environment.NewLine);
                 }
 

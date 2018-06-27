@@ -16,8 +16,6 @@ namespace microCommerce.Module.Core.Payments
 
         decimal GetAdditionalFee(IList<BasketItem> basketItems);
 
-        string GetViewComponent();
-
-        string GetConfigureUrl();
+        string ViewComponentName { get; }
     }
 }

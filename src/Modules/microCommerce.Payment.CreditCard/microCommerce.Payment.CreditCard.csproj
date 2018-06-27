@@ -10,8 +10,55 @@
     <OutputPath>..\..\Presentations\microCommerce.Web\Modules\Payment.CreditCard\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Content\images\amex.jpg" />
+    <None Remove="Content\images\mastercard.jpg" />
+    <None Remove="Content\images\visa.jpg" />
+    <None Remove="Content\jquery.payform.min.js" />
+    <None Remove="Content\script.js" />
+    <None Remove="Content\styles.css" />
+    <None Remove="module.json" />
+    <None Remove="Views\Configure.cshtml" />
+    <None Remove="Views\Public.cshtml" />
+    <None Remove="Views\_ViewImports.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\images\amex.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\mastercard.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\visa.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\jquery.payform.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\script.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\styles.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="module.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Configure.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Public.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_ViewImports.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\Libraries\microCommerce.Module.Core\microCommerce.Module.Core.csproj">
       <Private>false</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\microCommerce.Mvc\microCommerce.Mvc.csproj" />
   </ItemGroup>
 </Project>

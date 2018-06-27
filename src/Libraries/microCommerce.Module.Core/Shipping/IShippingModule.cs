@@ -1,6 +1,6 @@
 ﻿namespace microCommerce.Module.Core.Shipping
 {
-    public interface IShippingMethod : IModule
+    public interface IShippingModule : IModule
     {
         ShippingMethodInfo GetShippingInfo();
 

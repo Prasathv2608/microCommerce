@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 
 namespace microCommerce.Module.Core
@@ -61,7 +62,7 @@ namespace microCommerce.Module.Core
         {
             FileEnsureCreated(filePath);
 
-            var text = File.ReadAllText(filePath);
+            var text = File.ReadAllText(filePath, Encoding.UTF8);
             return JsonConvert.DeserializeObject<IList<string>>(text) ?? new List<string>();
         }
 

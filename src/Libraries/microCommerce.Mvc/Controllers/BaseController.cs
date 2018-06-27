@@ -101,7 +101,7 @@ namespace microCommerce.Mvc.Controllers
                 Formatting = Formatting.Indented,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
-
+            
             return new JsonResult(data, serializerSettings);
         }
     }

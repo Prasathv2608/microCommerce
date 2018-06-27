@@ -1,1 +1,11 @@
-﻿
+﻿@model PaymentViewModel
+
+<div class="container">
+    @foreach (var paymentMethod in Model.PaymentMethods)
+    {
+        <div class="payment-method">
+            <p>@paymentMethod.PaymentMethodName</p>
+            @await Component.InvokeAsync(paymentMethod.ViewComponentName)
+        </div>
+    }
+</div>

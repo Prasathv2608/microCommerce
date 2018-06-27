@@ -1,0 +1,8 @@
+﻿{
+  "FriendlyName": "UPS",
+  "SystemName": "Shipping.UPS",
+  "AssemblyFileName": "microCommerce.Shipping.UPS.dll",
+  "Version": "1.00",
+  "Description": "UPS Shipping module",
+  "Priority": 0
+}

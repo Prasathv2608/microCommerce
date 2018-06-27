@@ -40,9 +40,9 @@ namespace microCommerce.Module.Core.Shipping
         #region Nested Class
         public class ShippingItem : BaseRequestResponse
         {
-            public string ProductSKU { get; set; }
-
             public int ProductId { get; set; }
+
+            public string Sku { get; set; }
 
             public string Name { get; set; }
 

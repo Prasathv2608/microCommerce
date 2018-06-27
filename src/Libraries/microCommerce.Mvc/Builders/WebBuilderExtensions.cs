@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.FileProviders;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,8 +31,20 @@ namespace microCommerce.Mvc.Builders
             //use session storage
             app.UseSession();
 
+            var fileProvider = IocContainer.Current.Resolve<ICustomFileProvider>();
+
             //use static files
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(fileProvider.MapPath("Themes")),
+                RequestPath = new PathString("/Themes")
+            });
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(fileProvider.MapPath("Modules")),
+                RequestPath = new PathString("/Modules")
+            });
 
             //use mvc engine
             app.UseMvc(RegisterRoutes);

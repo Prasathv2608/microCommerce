@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace microCommerce.CategoryApi
+namespace microCommerce.CatalogApi
 {
     public class Startup
     {

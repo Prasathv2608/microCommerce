@@ -103,6 +103,8 @@ namespace microCommerce.Mvc.HttpProviders
             var response = await _client.SendAsync(requestMessage);
 
             string content = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(content))
+                return default(T);
 
             return JsonConvert.DeserializeObject<T>(content);
         }

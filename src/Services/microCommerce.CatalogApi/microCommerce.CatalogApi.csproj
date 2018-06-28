@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Copyright>Copyright © microCommerce</Copyright>
+    <Company>microCommerce</Company>
+    <Authors>microCommerce</Authors>
+    <Version>1.0.0</Version>
+    <Description>Simple Microservice Architecture E-Commerce Solutions</Description>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/fsefacan/microCommerce/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/fsefacan/microCommerce</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/fsefacan/microCommerce</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\microCommerce.Dapper\microCommerce.Dapper.csproj" />
+    <ProjectReference Include="..\..\Libraries\microCommerce.Mvc\microCommerce.Mvc.csproj" />
+  </ItemGroup>
+</Project>

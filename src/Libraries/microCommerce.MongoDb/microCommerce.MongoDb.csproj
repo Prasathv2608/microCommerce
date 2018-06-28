@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-	<Copyright>Copyright © microCommerce</Copyright>
+    <Copyright>Copyright © microCommerce</Copyright>
     <Company>microCommerce</Company>
     <Authors>microCommerce</Authors>
     <Version>1.0.0</Version>
@@ -12,16 +12,9 @@
     <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="wwwroot\**" />
-    <Content Remove="wwwroot\**" />
-    <EmbeddedResource Remove="wwwroot\**" />
-    <None Remove="wwwroot\**" />
+    <PackageReference Include="MongoDB.Driver" Version="2.7.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\microCommerce.Dapper\microCommerce.Dapper.csproj" />
-    <ProjectReference Include="..\..\Libraries\microCommerce.Mvc\microCommerce.Mvc.csproj" />
+    <ProjectReference Include="..\microCommerce.Domain\microCommerce.Domain.csproj" />
   </ItemGroup>
 </Project>

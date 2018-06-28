@@ -13,12 +13,5 @@ namespace microCommerce.BasketApi.Controllers
         {
             _dataContext = dataContext;
         }
-        
-        [HttpGet("/basket/items")]
-        public virtual IActionResult GetItems()
-        {
-            var items = _dataContext.Query<BasketItem>("select * from BasketItem");
-            return Json(items);
-        }
     }
 }

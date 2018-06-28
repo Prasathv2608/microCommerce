@@ -1,5 +1,4 @@
-﻿using Dapper;
-using microCommerce.Caching;
+﻿using microCommerce.Caching;
 using microCommerce.Dapper;
 using microCommerce.Domain.Directory;
 using microCommerce.Mvc.Controllers;
@@ -44,33 +43,33 @@ namespace microCommerce.DirectoryApi.Controllers
 
             return Json(countries);
         }
-        
+
         [HttpGet("/countries/{Id:int}")]
         public virtual IActionResult CountryById(int Id)
         {
             if (Id == 0)
-                return NotFound("country");
+                return BadRequest();
 
-            var country = _cacheManager.Get(string.Format(COUNTRY_BY_ID_CACHE_KEY, Id), () => _dataContext.Find<Country>(Id));
+            var country = _cacheManager.Get(string.Format(COUNTRY_BY_ID_CACHE_KEY, Id), () =>
+            {
+                return _dataContext.Find<Country>(Id);
+            });
 
             return Json(country);
         }
-        
+
         [HttpGet("/countries/{twoLetterIsoCode}")]
         public virtual IActionResult CountryByTwoLetterIsoCode(string twoLetterIsoCode)
         {
             if (string.IsNullOrEmpty(twoLetterIsoCode))
-                return NotFound("country");
+                return BadRequest();
 
             var country = _cacheManager.Get(string.Format(COUNTRY_BY_ISO_CODE_CACHE_KEY, twoLetterIsoCode), () =>
             {
-                var dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("twoLetterIsoCode", twoLetterIsoCode);
-
                 return _dataContext
                     .First<Country>(
-                    "SELECT TOP(1) Name, TwoLetterIsoCode, ThreeLetterIsoCode, NumericIsoCode, DialCode, CurrencyId, LanguageId, AllowBilling, AllowShipping, DisplayOrder, Published FROM Country WHERE TwoLetterIsoCode = @twoLetterIsoCode",
-                    dynamicParameters);
+                    "SELECT Name, TwoLetterIsoCode, ThreeLetterIsoCode, NumericIsoCode, DialCode, CurrencyId, LanguageId, AllowBilling, AllowShipping, DisplayOrder, Published FROM Country WHERE TwoLetterIsoCode = @twoLetterIsoCode LIMIT 1",
+                    new { twoLetterIsoCode });
             });
 
             return Json(country);

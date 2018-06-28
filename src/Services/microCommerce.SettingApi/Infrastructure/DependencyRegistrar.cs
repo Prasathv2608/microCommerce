@@ -11,7 +11,7 @@ using microCommerce.Mvc.Infrastructure;
 using microCommerce.Providers.Localizations;
 using System.Data;
 
-namespace microCommerce.ProductApi.Infrastructure
+namespace microCommerce.SettingApi.Infrastructure
 {
     public class DependencyRegistrar : IDependencyRegistrar
     {

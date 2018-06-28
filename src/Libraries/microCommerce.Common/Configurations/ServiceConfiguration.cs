@@ -31,7 +31,12 @@
         /// Gets or sets data caching enabled for database performance
         /// </summary>
         public bool CachingEnabled { get; set; }
-        
+
+        /// <summary>
+        /// Gets or sets the cache database index
+        /// </summary>
+        public int CacheDatabaseIndex { get; set; }
+
         /// <summary>
         /// Logging error, info, warning messages enabled
         /// </summary>

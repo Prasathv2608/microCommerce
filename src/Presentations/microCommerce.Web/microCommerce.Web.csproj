@@ -12,6 +12,20 @@
     <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Modules\Payment.CreditCard\**" />
+    <Compile Remove="Modules\Shipping.UPS\**" />
+    <Compile Remove="Modules\Widget.Slider\**" />
+    <Content Remove="Modules\Payment.CreditCard\**" />
+    <Content Remove="Modules\Shipping.UPS\**" />
+    <Content Remove="Modules\Widget.Slider\**" />
+    <EmbeddedResource Remove="Modules\Payment.CreditCard\**" />
+    <EmbeddedResource Remove="Modules\Shipping.UPS\**" />
+    <EmbeddedResource Remove="Modules\Widget.Slider\**" />
+    <None Remove="Modules\Payment.CreditCard\**" />
+    <None Remove="Modules\Shipping.UPS\**" />
+    <None Remove="Modules\Widget.Slider\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>

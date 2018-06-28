@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
-namespace microCommerce.ProductApi.Controllers
+namespace microCommerce.CatalogApi.Controllers
 {
     [Route("/")]
     public class HomeController : ServiceBaseController
@@ -10,7 +10,7 @@ namespace microCommerce.ProductApi.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Content("ProductApi is a live", "text/plain", Encoding.UTF8);
+            return Content("CatalogApi is a live", "text/plain", Encoding.UTF8);
         }
     }
 }

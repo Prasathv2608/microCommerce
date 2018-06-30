@@ -37,19 +37,7 @@ namespace microCommerce.Ioc
             //register assembly finder
             var assemblyHelper = new AssemblyHelper();
             containerBuilder.RegisterInstance(assemblyHelper).As<IAssemblyHelper>().SingleInstance();
-
-            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .AssignableTo<ITransientDependency>()
-                .InstancePerDependency();
-
-            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .AssignableTo<ILifetimeScopeDependency>()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .AssignableTo<ISingletonDependency>()
-                .SingleInstance();
-
+            
             var dependencyConfig = new DependencyContext
             {
                 ContainerBuilder = containerBuilder,

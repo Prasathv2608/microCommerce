@@ -46,7 +46,7 @@ namespace microCommerce.Module.Core
         {
             Assembly assembly = Assembly.LoadFile(moduleFile.FullName);
             var assemblyPart = new AssemblyPart(assembly);
-            if (!applicationPartManager.ApplicationParts.Contains(assemblyPart))
+            if (!applicationPartManager.ApplicationParts.Any(asm => asm.Name == assemblyPart.Name))
                 applicationPartManager.ApplicationParts.Add(assemblyPart);
 
             return assembly;

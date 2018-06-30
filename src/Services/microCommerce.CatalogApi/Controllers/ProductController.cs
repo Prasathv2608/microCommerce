@@ -1,7 +1,10 @@
-﻿using microCommerce.Dapper;
+﻿using Dapper;
+using microCommerce.Dapper;
 using microCommerce.Domain.Products;
 using microCommerce.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace microCommerce.ProductApi.Controllers
@@ -16,9 +19,41 @@ namespace microCommerce.ProductApi.Controllers
         }
 
         [HttpGet("/products")]
-        public virtual async Task<IActionResult> SearchProducts(int pageIndex = 0, int pageSize = int.MaxValue)
+        public virtual async Task<IActionResult> SearchProducts(int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            IList<int> categoryIds = null,
+            decimal? priceMin = null,
+            decimal? priceMax = null,
+           int productTagId = 0,
+           string keywords = null,
+           bool searchDescription = false,
+           bool searchSku = true,
+           bool searchPartNumber = true,
+           bool searchProductTags = false,
+           bool showHidden = false,
+           ProductFilterSorting orderBy = ProductFilterSorting.DisplayOrder)
         {
-            var products = await _dataContext.QueryAsync<Product>("SELECT * FROM Product");
+            if (categoryIds != null && categoryIds.Contains(0))
+                categoryIds.Remove(0);
+            
+            string commaSeparatedCategoryIds = categoryIds == null ? "" : string.Join(",", categoryIds);
+
+            var parameters = new DynamicParameters();
+            parameters.Add("pageIndex", pageIndex);
+            parameters.Add("pageSize", pageSize);
+            parameters.Add("categoryIds", commaSeparatedCategoryIds);
+            parameters.Add("priceMin", priceMin);
+            parameters.Add("priceMax", priceMax);
+            parameters.Add("productTagId", productTagId);
+            parameters.Add("keywords", keywords);
+            parameters.Add("searchDescription", searchDescription);
+            parameters.Add("searchSku", searchSku);
+            parameters.Add("searchPartNumber", searchPartNumber);
+            parameters.Add("searchProductTags", searchProductTags);
+            parameters.Add("showHidden", showHidden);
+            parameters.Add("orderBy", orderBy);
+
+            var products = await _dataContext.QueryAsync<Product>("SELECT * FROM Product", parameters);
 
             return Json(products);
         }
